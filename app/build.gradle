@@ -1,0 +1,96 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+def AndroidLibVersion = '25.3.1'
+def DaggerVersion = "2.5"
+def RetrofitVersion = "2.3.0"
+def OkhttpVersion = "3.7.0"
+def ButterknifeVersion = "8.6.0"
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.3"
+    defaultConfig {
+        applicationId "com.example.android.popularmoviesstage1"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    buildTypes.each {
+        it.buildConfigField 'String', 'THE_MOVIE_DB_API_KEY', keystoreProperties['TheMovieDBKey']
+    }
+
+    packagingOptions {
+        exclude 'LICENSE.txt'
+        exclude 'META-INF/rxjava.properties'
+    }
+
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+
+
+    //Android Dependency
+    compile "com.android.support:appcompat-v7:$AndroidLibVersion"
+    compile "com.android.support:percent:$AndroidLibVersion"
+    compile "com.android.support:design:$AndroidLibVersion"
+    compile "com.android.support:support-v4:$AndroidLibVersion"
+    compile "com.android.support:recyclerview-v7:$AndroidLibVersion"
+    compile "com.android.support:cardview-v7:$AndroidLibVersion"
+    compile "com.android.support:support-v4:$AndroidLibVersion"
+
+    //Dagger
+    compile "com.google.dagger:dagger:$DaggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$DaggerVersion"
+    androidTestAnnotationProcessor "com.google.dagger:dagger-compiler:$DaggerVersion"
+
+    //Retrofit
+    compile "com.squareup.retrofit2:retrofit:$RetrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$RetrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$RetrofitVersion"
+
+    //Okhttp
+    compile "com.squareup.okhttp3:okhttp:$OkhttpVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$OkhttpVersion"
+
+    //RxJava
+    compile 'io.reactivex.rxjava2:rxjava:2.1.0'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    //Butterknife
+    compile "com.jakewharton:butterknife:$ButterknifeVersion"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$ButterknifeVersion"
+
+    //Picasso
+    compile 'com.squareup.picasso:picasso:2.5.2'
+}

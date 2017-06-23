@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Popular Movies  Stage 1</string>
+    <string name="movie_vote_average">%s / 10</string>
+    <string name="movie_release_date">Release Date</string>
+    <string name="movie_year">2017</string>
+    <string name="movie_rate">Rate</string>
+    <string name="movie_vote_average_sample">8.1 / 10</string>
+    <string name="filter_most_popular">Most Popular</string>
+    <string name="filter_top_rated">Top Rated</string>
+
+    <!--TAG DESCRIPTION-->
+    <string name="movie_header">Movie Header</string>
+    <string name="movie_poster">Movie Poster</string>
+    <string name="movie_image">Movie Image</string>
+
+    <!--Title APP-->
+    <string name="pop_movie">Pop Movie</string>
+</resources>
