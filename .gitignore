@@ -6,4 +6,7 @@
 .DS_Store
 /build
 /captures
+/keystore.properties
 .externalNativeBuild
+app/libs/
+app/src/main/res/drawable/
