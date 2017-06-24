@@ -84,7 +84,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                     .load(Constants.BASE_URL_IMAGE_BACKDROP+"/w500"+ movie.getBackdropPath())
                     .into(mMovieHeader);
             Picasso.with(getApplicationContext())
-                    .load(Constants.BASE_URL_IMAGE_BACKDROP+"/w342"+movie.getBackdropPath())
+                    .load(Constants.BASE_URL_IMAGE_BACKDROP+"/w342"+movie.getPosterPath())
                     .into(mPoster);
             mCountAverage.setText(getResources().getString(R.string.movie_vote_average, String.valueOf(movie.getVoteAverage())));
             mReleaseDate.setText(movie.getReleaseDate());
