@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.android.popularmoviesstage1">
+    package="com.example.android.popularmovies">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <application
-        android:name=".MovieApp"
+        android:name="com.example.android.popularmovies.MovieApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -14,7 +14,7 @@
         android:fullBackupContent="true">
         <activity
             android:label="@string/pop_movie"
-            android:name=".ui.home.MainActivity">
+            android:name="com.example.android.popularmovies.ui.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:theme="@style/AppThemeNoActionBar"
-            android:name=".ui.detail.DetailActivity" />
+            android:name="com.example.android.popularmovies.ui.detail.DetailActivity" />
     </application>
 
 </manifest>
