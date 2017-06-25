@@ -2,7 +2,12 @@ package com.example.android.popularmoviesstage1.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Parcel;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +19,7 @@ import com.example.android.popularmoviesstage1.model.Movie;
 import com.example.android.popularmoviesstage1.ui.detail.DetailActivity;
 import com.example.android.popularmoviesstage1.utils.Constants;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -43,9 +49,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Movie movie = mMovies.get(position);
+
         Picasso.with(mContext)
                 .load(Constants.BASE_URL_IMAGE+movie.getPosterPath())
                 .into(holder.mMovieCover);
+
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, DetailActivity.class);
             intent.putExtra("data", movie);
@@ -58,6 +66,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         return mMovies.size();
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mMovieCover;
         public ViewHolder(View itemView) {
@@ -65,4 +74,5 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             mMovieCover = (ImageView) itemView.findViewById(R.id.item_movie_cover);
         }
     }
+
 }

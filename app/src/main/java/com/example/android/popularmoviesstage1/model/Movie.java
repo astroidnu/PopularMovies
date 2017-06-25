@@ -1,5 +1,6 @@
 package com.example.android.popularmoviesstage1.model;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -40,6 +41,10 @@ public class Movie implements Parcelable {
     private String overview;
     @SerializedName("release_date")
     private String releaseDate;
+
+
+    private Bitmap movieHeader;
+    private Bitmap moviePoster;
 
     protected Movie(Parcel in) {
         voteCount = in.readInt();
@@ -193,5 +198,21 @@ public class Movie implements Parcelable {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public Bitmap getMovieHeader() {
+        return movieHeader;
+    }
+
+    public void setMovieHeader(Bitmap movieHeader) {
+        this.movieHeader = movieHeader;
+    }
+
+    public Bitmap getMoviePoster() {
+        return moviePoster;
+    }
+
+    public void setMoviePoster(Bitmap moviePoster) {
+        this.moviePoster = moviePoster;
     }
 }

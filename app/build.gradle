@@ -68,6 +68,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:$AndroidLibVersion"
     compile "com.android.support:cardview-v7:$AndroidLibVersion"
     compile "com.android.support:support-v4:$AndroidLibVersion"
+    compile "com.android.support:palette-v7:$AndroidLibVersion"
 
     //Dagger
     compile "com.google.dagger:dagger:$DaggerVersion"
@@ -93,4 +94,8 @@ dependencies {
 
     //Picasso
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    //Task Bolts
+    compile 'com.parse.bolts:bolts-tasks:1.4.0'
+    compile 'com.parse.bolts:bolts-applinks:1.4.0'
 }
