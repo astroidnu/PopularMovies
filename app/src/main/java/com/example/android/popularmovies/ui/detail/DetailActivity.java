@@ -108,7 +108,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                     .load(Constants.BASE_URL_IMAGE_BACKDROP+"/w500"+ movie.getBackdropPath())
                     .into(mMovieHeader);
             try{
-                setPalette(Constants.BASE_URL_IMAGE_BACKDROP+"/w185/"+movie.getBackdropPath());
+                setPalette(Constants.BASE_URL_IMAGE_BACKDROP+"/w342"+movie.getBackdropPath());
             }catch (Exception e){
                 Log.e(getClass().getName(), e.getMessage());
             }

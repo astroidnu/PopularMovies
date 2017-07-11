@@ -1,6 +1,8 @@
 package com.example.android.popularmovies.api;
 
 import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.model.Review;
+import com.example.android.popularmovies.model.Video;
 
 import java.util.List;
 
@@ -18,4 +20,10 @@ import retrofit2.http.Query;
 public interface NetworkService {
     @GET("movie/{sort}")
     Flowable<ApiResponse<BaseApiResponse<List<Movie>>>> getMoviesData(@Path("sort") String sort, @Query("api_key") String api_key);
+
+    @GET("movie/{id}/videos")
+    Flowable<ApiResponse<BaseApiResponse<List<Video>>>> getVideoData(@Path("id") String movieId, @Query("api_key") String api_key);
+
+    @GET("movie/{id}/reviews")
+    Flowable<ApiResponse<BaseApiResponse<List<Review>>>> getReviewData(@Path("id") String movieId, @Query("api_key") String api_key);
 }

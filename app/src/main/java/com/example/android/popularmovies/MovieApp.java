@@ -37,7 +37,7 @@ public class MovieApp extends Application{
     }
 
     public AppComponent getAppComponent() {
-        return appComponent;
+        return  appComponent;
     }
 
 }
