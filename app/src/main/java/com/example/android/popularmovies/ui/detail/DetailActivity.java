@@ -10,6 +10,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,7 +22,9 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.MovieApp;
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.adapter.VideoAdapter;
 import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.model.Video;
 import com.example.android.popularmovies.utils.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -30,6 +34,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
@@ -67,8 +72,12 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     ProgressBar mProgressBar;
     @BindView(R.id.detail_movie_btn_favorite)
     FloatingActionButton mBtnFavorite;
+    @BindView(R.id.detail_movie_movie_trailer_list)
+    RecyclerView mMovieTrailerRV;
 
     private DetailContract.UserActionListener mActionListener;
+    private VideoAdapter videoAdapter;
+    private LinearLayoutManager mLinearLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +134,11 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     @Override
     public void showLoading() {
         mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setAdapter(List<Video> movieList) {
+
     }
 
     @Override
