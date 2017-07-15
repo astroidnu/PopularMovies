@@ -22,8 +22,10 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.MovieApp;
 import com.example.android.popularmovies.R;
+import com.example.android.popularmovies.adapter.ReviewAdapter;
 import com.example.android.popularmovies.adapter.VideoAdapter;
 import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.model.Review;
 import com.example.android.popularmovies.model.Video;
 import com.example.android.popularmovies.utils.Constants;
 import com.squareup.picasso.Picasso;
@@ -74,10 +76,13 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     FloatingActionButton mBtnFavorite;
     @BindView(R.id.detail_movie_movie_trailer_list)
     RecyclerView mMovieTrailerRV;
+    @BindView(R.id.detail_movie_movie_review_list)
+    RecyclerView mReviewRV;
 
     private DetailContract.UserActionListener mActionListener;
     private VideoAdapter videoAdapter;
     private LinearLayoutManager mLinearLayoutManager;
+    private ReviewAdapter reviewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +102,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             if(extras.containsKey("data")){
                 Movie movie = getIntent().getParcelableExtra("data");
                 showData(movie);
+                mActionListener.getTrailerList(String.valueOf(movie.getId()));
+                mActionListener.getReviewList(String.valueOf(movie.getId()));
             }
         }
     }
@@ -138,7 +145,18 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Override
     public void setAdapter(List<Video> movieList) {
+        mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mMovieTrailerRV.setLayoutManager(mLinearLayoutManager);
+        videoAdapter = new VideoAdapter(movieList, this);
+        mMovieTrailerRV.setAdapter(videoAdapter);
+    }
 
+    @Override
+    public void setAdapterReview(List<Review> reviewList) {
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mReviewRV.setLayoutManager(mLinearLayoutManager);
+        reviewAdapter = new ReviewAdapter(reviewList, this);
+        mReviewRV.setAdapter(reviewAdapter);
     }
 
     @Override

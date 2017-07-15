@@ -15,4 +15,7 @@
 
     <!--Title APP-->
     <string name="pop_movie">Pop Movie</string>
+
+    <!--BASE URL-->
+    <string name="youtube_video_thumbnail" translatable="false">https://img.youtube.com/vi/%s/0.jpg</string>
 </resources>

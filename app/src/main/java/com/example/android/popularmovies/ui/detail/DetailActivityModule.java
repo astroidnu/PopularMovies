@@ -1,6 +1,8 @@
 package com.example.android.popularmovies.ui.detail;
 
+import com.example.android.popularmovies.api.NetworkService;
 import com.example.android.popularmovies.di.scope.ActivityScope;
+import com.example.android.popularmovies.repository.MainRepository;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,11 +25,16 @@ public class DetailActivityModule {
         return detailActivity;
     }
 
+    @Provides
+    @ActivityScope
+    MainRepository provideMainRepository(NetworkService networkService) {
+        return new MainRepository(networkService);
+    }
 
     @Provides
     @ActivityScope
-    DetailPresenter provideDetailPresenter() {
-        return new DetailPresenter();
+    DetailPresenter provideDetailPresenter(MainRepository mainRepository) {
+        return new DetailPresenter(mainRepository);
     }
 
 }

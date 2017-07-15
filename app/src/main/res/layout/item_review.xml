@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+<LinearLayout
+    android:layout_marginTop="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#FEFEFE"
+    android:layout_height="wrap_content">
+    <TextView
+        android:textStyle="bold"
+        android:textSize="16sp"
+        tools:text="Ibnu Muzzakkir"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/review_title"/>
+    <TextView
+        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        tools:text="Komennya cihuy dong"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/review_content"/>
 </LinearLayout>

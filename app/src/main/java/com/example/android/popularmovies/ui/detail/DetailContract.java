@@ -1,6 +1,7 @@
 package com.example.android.popularmovies.ui.detail;
 
 import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.model.Review;
 import com.example.android.popularmovies.model.Video;
 
 import java.net.MalformedURLException;
@@ -17,10 +18,12 @@ public class DetailContract {
         void showData(Movie movie) throws MalformedURLException;
         void showLoading();
         void setAdapter(List<Video> movieList);
+        void setAdapterReview(List<Review> reviewList);
 
     }
 
     public interface UserActionListener{
-
+        void getTrailerList(String id);
+        void getReviewList(String id);
     }
 }
