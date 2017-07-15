@@ -18,4 +18,9 @@ public class Constants {
         int POPULAR_MOVIES = 0;
         int TOP_RATED_MOVIES = 1;
     }
+
+    public interface ADAPTER_TYPE{
+        int TRAILER_ADAPTER = 0;
+        int REVIEW_ADAPTER = 1;
+    }
 }

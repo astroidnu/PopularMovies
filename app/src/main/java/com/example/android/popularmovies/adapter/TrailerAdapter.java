@@ -22,13 +22,13 @@ import java.util.List;
  * SCO Project
  */
 
-public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
+public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
     private List<Video> mVideos;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    public VideoAdapter(List<Video> videos, Context context){
-        mVideos = videos;
+    public <T> TrailerAdapter(List<T> videos, Context context){
+        mVideos = (List<Video>)videos;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         notifyDataSetChanged();
@@ -44,7 +44,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         Video  video = mVideos.get(position);
         String url = mContext.getResources().getString(R.string.youtube_video_thumbnail,video.getKey());
-        Log.d(getClass().getName(), url);
         Picasso.with(mContext)
                 .load(url)
                 .into(holder.mVideoThumbnail);

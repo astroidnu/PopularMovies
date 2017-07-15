@@ -24,10 +24,8 @@ import android.widget.TextView;
 import com.example.android.popularmovies.MovieApp;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.ReviewAdapter;
-import com.example.android.popularmovies.adapter.VideoAdapter;
+import com.example.android.popularmovies.adapter.TrailerAdapter;
 import com.example.android.popularmovies.model.Movie;
-import com.example.android.popularmovies.model.Review;
-import com.example.android.popularmovies.model.Video;
 import com.example.android.popularmovies.utils.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -83,7 +81,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     LinearLayout mLayoutNoReview;
 
     private DetailContract.UserActionListener mActionListener;
-    private VideoAdapter videoAdapter;
+    private TrailerAdapter trailerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private ReviewAdapter reviewAdapter;
 
@@ -147,25 +145,27 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     @Override
-    public void setAdapter(List<Video> movieList) {
-        mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mMovieTrailerRV.setLayoutManager(mLinearLayoutManager);
-        videoAdapter = new VideoAdapter(movieList, this);
-        mMovieTrailerRV.setAdapter(videoAdapter);
-    }
-
-    @Override
-    public void setAdapterReview(List<Review> reviewList) {
-        if(reviewList.size() > 0){
-            mReviewRV.setVisibility(View.VISIBLE);
-            mLayoutNoReview.setVisibility(View.GONE);
-            mLinearLayoutManager = new LinearLayoutManager(this);
-            mReviewRV.setLayoutManager(mLinearLayoutManager);
-            reviewAdapter = new ReviewAdapter(reviewList, this);
-            mReviewRV.setAdapter(reviewAdapter);
-        }else{
-            mReviewRV.setVisibility(View.GONE);
-            mLayoutNoReview.setVisibility(View.VISIBLE);
+    public <T> void setAllAdapter(List<T> data, int adapterId){
+        switch (adapterId){
+            case Constants.ADAPTER_TYPE.TRAILER_ADAPTER:
+                mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                mMovieTrailerRV.setLayoutManager(mLinearLayoutManager);
+                trailerAdapter = new TrailerAdapter(data, this);
+                mMovieTrailerRV.setAdapter(trailerAdapter);
+                break;
+            case Constants.ADAPTER_TYPE.REVIEW_ADAPTER:
+                if(data.size() > 0){
+                    mReviewRV.setVisibility(View.VISIBLE);
+                    mLayoutNoReview.setVisibility(View.GONE);
+                    mLinearLayoutManager = new LinearLayoutManager(this);
+                    mReviewRV.setLayoutManager(mLinearLayoutManager);
+                    reviewAdapter = new ReviewAdapter(data, this);
+                    mReviewRV.setAdapter(reviewAdapter);
+                }else{
+                    mReviewRV.setVisibility(View.GONE);
+                    mLayoutNoReview.setVisibility(View.VISIBLE);
+                }
+                break;
         }
 
     }

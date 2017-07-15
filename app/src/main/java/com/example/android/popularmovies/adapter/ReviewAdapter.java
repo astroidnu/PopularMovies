@@ -23,8 +23,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
     private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    public ReviewAdapter(List<Review> reviews, Context context){
-        mReviews = reviews;
+    public <T> ReviewAdapter(List<T> reviews, Context context){
+        mReviews = (List<Review>)reviews;
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
     }

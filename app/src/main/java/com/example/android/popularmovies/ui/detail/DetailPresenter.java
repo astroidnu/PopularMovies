@@ -6,6 +6,7 @@ import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.model.Review;
 import com.example.android.popularmovies.model.Video;
 import com.example.android.popularmovies.repository.MainRepository;
+import com.example.android.popularmovies.utils.Constants;
 import com.example.android.popularmovies.utils.CustomResourceSubscriber;
 import com.example.android.popularmovies.vo.Resource;
 
@@ -37,7 +38,7 @@ public class DetailPresenter implements DetailContract.UserActionListener {
                 .subscribe(new CustomResourceSubscriber<Resource<List<Video>>>() {
                     @Override
                     protected void onNextAndCompleted(@NonNull Resource<List<Video>> body) {
-                        mView.setAdapter(body.data);
+                        mView.setAllAdapter(body.data, Constants.ADAPTER_TYPE.TRAILER_ADAPTER);
                     }
 
                     @Override
@@ -53,7 +54,7 @@ public class DetailPresenter implements DetailContract.UserActionListener {
                 .subscribe(new CustomResourceSubscriber<Resource<List<Review>>>() {
                     @Override
                     protected void onNextAndCompleted(@NonNull Resource<List<Review>> body) {
-                        mView.setAdapterReview(body.data);
+                        mView.setAllAdapter(body.data, Constants.ADAPTER_TYPE.REVIEW_ADAPTER);
                     }
 
                     @Override

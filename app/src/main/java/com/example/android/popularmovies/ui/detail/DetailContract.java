@@ -17,8 +17,7 @@ public class DetailContract {
     public interface View{
         void showData(Movie movie) throws MalformedURLException;
         void showLoading();
-        void setAdapter(List<Video> movieList);
-        void setAdapterReview(List<Review> reviewList);
+        <T> void setAllAdapter(List<T> data, int adapterId);
 
     }
 
