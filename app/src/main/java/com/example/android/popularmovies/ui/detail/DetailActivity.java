@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -78,6 +79,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     RecyclerView mMovieTrailerRV;
     @BindView(R.id.detail_movie_movie_review_list)
     RecyclerView mReviewRV;
+    @BindView(R.id.detail_movie_no_review)
+    LinearLayout mLayoutNoReview;
 
     private DetailContract.UserActionListener mActionListener;
     private VideoAdapter videoAdapter;
@@ -153,10 +156,18 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Override
     public void setAdapterReview(List<Review> reviewList) {
-        mLinearLayoutManager = new LinearLayoutManager(this);
-        mReviewRV.setLayoutManager(mLinearLayoutManager);
-        reviewAdapter = new ReviewAdapter(reviewList, this);
-        mReviewRV.setAdapter(reviewAdapter);
+        if(reviewList.size() > 0){
+            mReviewRV.setVisibility(View.VISIBLE);
+            mLayoutNoReview.setVisibility(View.GONE);
+            mLinearLayoutManager = new LinearLayoutManager(this);
+            mReviewRV.setLayoutManager(mLinearLayoutManager);
+            reviewAdapter = new ReviewAdapter(reviewList, this);
+            mReviewRV.setAdapter(reviewAdapter);
+        }else{
+            mReviewRV.setVisibility(View.GONE);
+            mLayoutNoReview.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
