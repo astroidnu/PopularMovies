@@ -18,4 +18,10 @@
 
     <!--BASE URL-->
     <string name="youtube_video_thumbnail" translatable="false">https://img.youtube.com/vi/%s/0.jpg</string>
+
+    <!--Array Adapter-->
+    <array name="list_adapter">
+        <item>Movie Trailer</item>
+        <item>Movie Review</item>
+    </array>
 </resources>

@@ -103,8 +103,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             if(extras.containsKey("data")){
                 Movie movie = getIntent().getParcelableExtra("data");
                 showData(movie);
-                mActionListener.getTrailerList(String.valueOf(movie.getId()));
-                mActionListener.getReviewList(String.valueOf(movie.getId()));
+                mActionListener.getReviewAndTrailerList(String.valueOf(movie.getId()));
             }
         }
     }

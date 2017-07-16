@@ -22,7 +22,6 @@ public class DetailContract {
     }
 
     public interface UserActionListener{
-        void getTrailerList(String id);
-        void getReviewList(String id);
+        <T> void getReviewAndTrailerList(String id);
     }
 }

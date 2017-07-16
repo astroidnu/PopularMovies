@@ -1,5 +1,7 @@
 package com.example.android.popularmovies.repository;
 
+import android.util.Log;
+
 import com.example.android.popularmovies.api.ApiWrapper;
 import com.example.android.popularmovies.api.NetworkService;
 import com.example.android.popularmovies.model.Movie;
@@ -8,10 +10,17 @@ import com.example.android.popularmovies.model.Video;
 import com.example.android.popularmovies.utils.Constants;
 import com.example.android.popularmovies.vo.Resource;
 
+import org.reactivestreams.Subscriber;
+import org.reactivestreams.Subscription;
+
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.FlowableSubscriber;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.internal.operators.flowable.FlowableSubscribeOn;
 import io.reactivex.schedulers.Schedulers;
 
 /**
