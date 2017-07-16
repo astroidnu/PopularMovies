@@ -3,6 +3,7 @@ package com.example.android.popularmovies.ui.home;
 import android.util.Log;
 
 import com.example.android.popularmovies.data.Movie;
+import com.example.android.popularmovies.model.MovieModel;
 import com.example.android.popularmovies.repository.MainRepository;
 import com.example.android.popularmovies.utils.CustomResourceSubscriber;
 import com.example.android.popularmovies.vo.Resource;
@@ -40,15 +41,11 @@ public class MainPresenter implements MainContract.UserActionListener {
                     protected void onNextAndCompleted(@NonNull Resource<List<Movie>> body) {
                         mView.setAdapter(body.data);
                         mView.hideLoading();
-//                        Log.d(getClass().getName(), String.valueOf(body.data));
-//                       for(Movie movie : body.data.movies){
-//                           Log.d(getClass().getName(), String.valueOf(movie.id));
-//                       }
                     }
 
                     @Override
                     protected void onError(String errorMessage) {
-                        Log.e(getClass().getName(),errorMessage);
+                        Log.e(getClass().getName(), errorMessage);
                         mView.hideLoading();
                     }
                 });
@@ -56,7 +53,7 @@ public class MainPresenter implements MainContract.UserActionListener {
 
     @Override
     public void getMovies(int sortId) {
-        switch (sortId){
+        switch (sortId) {
             case 0:
                 getMoviesData("popular");
                 break;

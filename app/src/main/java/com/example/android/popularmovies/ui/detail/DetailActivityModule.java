@@ -1,7 +1,9 @@
 package com.example.android.popularmovies.ui.detail;
 
 import com.example.android.popularmovies.api.NetworkService;
+import com.example.android.popularmovies.data.DaoSession;
 import com.example.android.popularmovies.di.scope.ActivityScope;
+import com.example.android.popularmovies.model.MovieModel;
 import com.example.android.popularmovies.repository.MainRepository;
 
 import dagger.Module;
@@ -31,10 +33,17 @@ public class DetailActivityModule {
         return new MainRepository(networkService);
     }
 
+
     @Provides
     @ActivityScope
-    DetailPresenter provideDetailPresenter(MainRepository mainRepository) {
-        return new DetailPresenter(mainRepository);
+    MovieModel provideMovieModel(DaoSession daoSession){
+        return new MovieModel(daoSession);
+    }
+
+    @Provides
+    @ActivityScope
+    DetailPresenter provideDetailPresenter(MainRepository mainRepository, MovieModel movieModel) {
+        return new DetailPresenter(mainRepository, movieModel);
     }
 
 }

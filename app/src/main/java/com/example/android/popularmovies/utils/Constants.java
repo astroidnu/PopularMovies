@@ -13,6 +13,7 @@ public class Constants {
     public static String TOKEN =  BuildConfig.THE_MOVIE_DB_API_KEY;
     public static String BASE_URL_IMAGE = "http://image.tmdb.org/t/p/w185/";
     public static String BASE_URL_IMAGE_BACKDROP = "http://image.tmdb.org/t/p";
+    public static String DB_NAME = "movies_db";
 
     public interface SORT_TYPE{
         int POPULAR_MOVIES = 0;

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.example.android.popularmovies.data.Review;
 import com.example.android.popularmovies.data.Video;
+import com.example.android.popularmovies.model.MovieModel;
 import com.example.android.popularmovies.repository.MainRepository;
 import com.example.android.popularmovies.utils.Constants;
 import com.example.android.popularmovies.vo.Resource;
@@ -25,9 +26,11 @@ import io.reactivex.subscribers.ResourceSubscriber;
 public class DetailPresenter implements DetailContract.UserActionListener {
     private DetailContract.View mView;
     private MainRepository mainRepository;
+    private MovieModel mMovieModel;
 
-    public DetailPresenter(MainRepository mainRepository) {
+    public DetailPresenter(MainRepository mainRepository, MovieModel movieModel) {
         this.mainRepository = mainRepository;
+        mMovieModel = movieModel;
     }
 
     public void setView(DetailContract.View mView) {

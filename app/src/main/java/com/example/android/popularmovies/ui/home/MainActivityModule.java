@@ -1,7 +1,9 @@
 package com.example.android.popularmovies.ui.home;
 
 import com.example.android.popularmovies.api.NetworkService;
+import com.example.android.popularmovies.data.DaoSession;
 import com.example.android.popularmovies.di.scope.ActivityScope;
+import com.example.android.popularmovies.model.MovieModel;
 import com.example.android.popularmovies.repository.MainRepository;
 
 import dagger.Module;
