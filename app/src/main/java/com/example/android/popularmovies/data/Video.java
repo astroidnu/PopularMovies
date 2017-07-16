@@ -5,10 +5,14 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * Created by ibnumuzzakkir on 7/11/17.
  */
 
+@Entity
 public class Video implements Parcelable {
     @SerializedName("id")
     private String id;
@@ -36,6 +40,23 @@ public class Video implements Parcelable {
         site = in.readString();
         size = in.readInt();
         type = in.readString();
+    }
+
+    @Generated(hash = 611357741)
+    public Video(String id, String iso6391, String iso31661, String key,
+            String name, String site, int size, String type) {
+        this.id = id;
+        this.iso6391 = iso6391;
+        this.iso31661 = iso31661;
+        this.key = key;
+        this.name = name;
+        this.site = site;
+        this.size = size;
+        this.type = type;
+    }
+
+    @Generated(hash = 237528154)
+    public Video() {
     }
 
     @Override

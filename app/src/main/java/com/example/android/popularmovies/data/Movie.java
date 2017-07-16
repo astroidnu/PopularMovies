@@ -5,12 +5,16 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * Created by ibnumuzzakkir on 15/06/2017.
  * Android Developer
  * Garena Indonesia
  */
 
+@Entity
 public class Movie implements Parcelable {
     @SerializedName("vote_count")
     private int voteCount;
@@ -54,6 +58,30 @@ public class Movie implements Parcelable {
         adult = in.readByte() != 0;
         overview = in.readString();
         releaseDate = in.readString();
+    }
+
+    @Generated(hash = 218955719)
+    public Movie(int voteCount, int id, boolean video, float voteAverage,
+            String title, float popularity, String posterPath,
+            String originalLanguage, String originalTitle, String backdropPath,
+            boolean adult, String overview, String releaseDate) {
+        this.voteCount = voteCount;
+        this.id = id;
+        this.video = video;
+        this.voteAverage = voteAverage;
+        this.title = title;
+        this.popularity = popularity;
+        this.posterPath = posterPath;
+        this.originalLanguage = originalLanguage;
+        this.originalTitle = originalTitle;
+        this.backdropPath = backdropPath;
+        this.adult = adult;
+        this.overview = overview;
+        this.releaseDate = releaseDate;
+    }
+
+    @Generated(hash = 1263461133)
+    public Movie() {
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
@@ -192,5 +220,13 @@ public class Movie implements Parcelable {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
+    }
+
+    public boolean getVideo() {
+        return this.video;
+    }
+
+    public boolean getAdult() {
+        return this.adult;
     }
 }

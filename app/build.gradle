@@ -51,6 +51,11 @@ android {
 
 
 }
+//Setup GreenDao
+greendao {
+    targetGenDir 'src/main/java'
+    schemaVersion 1
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

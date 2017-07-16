@@ -5,10 +5,14 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
+
 /**
  * Created by ibnumuzzakkir on 7/11/17.
  */
 
+@Entity
 public class Review implements Parcelable {
     @SerializedName("id")
     private String id;
@@ -24,6 +28,18 @@ public class Review implements Parcelable {
         author = in.readString();
         content = in.readString();
         url = in.readString();
+    }
+
+    @Generated(hash = 2090517670)
+    public Review(String id, String author, String content, String url) {
+        this.id = id;
+        this.author = author;
+        this.content = content;
+        this.url = url;
+    }
+
+    @Generated(hash = 2008964488)
+    public Review() {
     }
 
     public static final Creator<Review> CREATOR = new Creator<Review>() {
