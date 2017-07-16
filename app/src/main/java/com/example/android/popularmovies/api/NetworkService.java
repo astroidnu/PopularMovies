@@ -1,8 +1,8 @@
 package com.example.android.popularmovies.api;
 
-import com.example.android.popularmovies.model.Movie;
-import com.example.android.popularmovies.model.Review;
-import com.example.android.popularmovies.model.Video;
+import com.example.android.popularmovies.data.Movie;
+import com.example.android.popularmovies.data.Review;
+import com.example.android.popularmovies.data.Video;
 
 import java.util.List;
 

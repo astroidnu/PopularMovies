@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import com.example.android.popularmovies.MovieApp;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.MovieAdapter;
-import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.utils.Constants;
 
 import java.util.List;

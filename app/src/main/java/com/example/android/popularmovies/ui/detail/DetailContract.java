@@ -1,8 +1,6 @@
 package com.example.android.popularmovies.ui.detail;
 
-import com.example.android.popularmovies.model.Movie;
-import com.example.android.popularmovies.model.Review;
-import com.example.android.popularmovies.model.Video;
+import com.example.android.popularmovies.data.Movie;
 
 import java.net.MalformedURLException;
 import java.util.List;

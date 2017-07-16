@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.android.popularmovies.R;
-import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.ui.detail.DetailActivity;
 import com.example.android.popularmovies.utils.Constants;
 import com.squareup.picasso.Picasso;

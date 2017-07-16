@@ -1,10 +1,7 @@
 package com.example.android.popularmovies.di.module;
 
-import android.content.Context;
-
 import com.example.android.popularmovies.MovieApp;
 import com.example.android.popularmovies.api.NetworkService;
-import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.utils.Constants;
 import com.example.android.popularmovies.utils.CustomCallAdapterFactory;
 

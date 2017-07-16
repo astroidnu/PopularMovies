@@ -1,6 +1,6 @@
 package com.example.android.popularmovies.api;
 
-import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.data.Movie;
 
 import java.util.List;
 

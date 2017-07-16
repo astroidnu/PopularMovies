@@ -1,19 +1,13 @@
 package com.example.android.popularmovies.ui.detail;
 
-import android.os.Parcelable;
 import android.util.Log;
 
-import com.example.android.popularmovies.model.Movie;
-import com.example.android.popularmovies.model.Review;
-import com.example.android.popularmovies.model.Video;
+import com.example.android.popularmovies.data.Review;
+import com.example.android.popularmovies.data.Video;
 import com.example.android.popularmovies.repository.MainRepository;
 import com.example.android.popularmovies.utils.Constants;
-import com.example.android.popularmovies.utils.CustomResourceSubscriber;
 import com.example.android.popularmovies.vo.Resource;
 
-import org.reactivestreams.Subscription;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

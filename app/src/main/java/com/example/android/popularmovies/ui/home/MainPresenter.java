@@ -2,7 +2,7 @@ package com.example.android.popularmovies.ui.home;
 
 import android.util.Log;
 
-import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.repository.MainRepository;
 import com.example.android.popularmovies.utils.CustomResourceSubscriber;
 import com.example.android.popularmovies.vo.Resource;
