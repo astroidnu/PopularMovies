@@ -5,6 +5,8 @@ import android.util.Log;
 import com.example.android.popularmovies.data.Review;
 import com.example.android.popularmovies.data.Video;
 import com.example.android.popularmovies.model.MovieModel;
+import com.example.android.popularmovies.model.ReviewModel;
+import com.example.android.popularmovies.model.TrailerModel;
 import com.example.android.popularmovies.repository.MainRepository;
 import com.example.android.popularmovies.utils.Constants;
 import com.example.android.popularmovies.vo.Resource;
@@ -27,10 +29,14 @@ public class DetailPresenter implements DetailContract.UserActionListener {
     private DetailContract.View mView;
     private MainRepository mainRepository;
     private MovieModel mMovieModel;
+    private ReviewModel mReviewModel;
+    private TrailerModel mTrailerModel;
 
-    public DetailPresenter(MainRepository mainRepository, MovieModel movieModel) {
+    public DetailPresenter(MainRepository mainRepository, MovieModel movieModel,  ReviewModel reviewModel,TrailerModel trailerModel) {
         this.mainRepository = mainRepository;
         mMovieModel = movieModel;
+        mReviewModel = reviewModel;
+        mTrailerModel = trailerModel;
     }
 
     public void setView(DetailContract.View mView) {

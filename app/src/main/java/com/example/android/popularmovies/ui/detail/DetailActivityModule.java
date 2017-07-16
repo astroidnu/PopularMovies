@@ -4,6 +4,8 @@ import com.example.android.popularmovies.api.NetworkService;
 import com.example.android.popularmovies.data.DaoSession;
 import com.example.android.popularmovies.di.scope.ActivityScope;
 import com.example.android.popularmovies.model.MovieModel;
+import com.example.android.popularmovies.model.ReviewModel;
+import com.example.android.popularmovies.model.TrailerModel;
 import com.example.android.popularmovies.repository.MainRepository;
 
 import dagger.Module;
@@ -40,10 +42,24 @@ public class DetailActivityModule {
         return new MovieModel(daoSession);
     }
 
+
     @Provides
     @ActivityScope
-    DetailPresenter provideDetailPresenter(MainRepository mainRepository, MovieModel movieModel) {
-        return new DetailPresenter(mainRepository, movieModel);
+    TrailerModel provideTrailerModel(DaoSession daoSession){
+        return new TrailerModel(daoSession);
+    }
+
+
+    @Provides
+    @ActivityScope
+    ReviewModel provideReviewModel(DaoSession daoSession){
+        return new ReviewModel(daoSession);
+    }
+
+    @Provides
+    @ActivityScope
+    DetailPresenter provideDetailPresenter(MainRepository mainRepository, MovieModel movieModel, ReviewModel reviewModel, TrailerModel trailerModel) {
+        return new DetailPresenter(mainRepository, movieModel, reviewModel, trailerModel);
     }
 
 }
