@@ -18,11 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.FlowableSubscriber;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.BiFunction;
-import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subscribers.ResourceSubscriber;
 
 /**
@@ -47,10 +44,10 @@ public class DetailPresenter implements DetailContract.UserActionListener {
     public <T> void getReviewAndTrailerList(String id) {
         Flowable.zip(mainRepository.getVideos(id), mainRepository.getReviews(id), new BiFunction<Resource<List<Video>>, Resource<List<Review>>, HashMap<Integer, List<T>>>() {
             @Override
-            public HashMap<Integer, List<T>> apply(@NonNull Resource<List<Video>> listResource, @NonNull Resource<List<Review>> listResource2) throws Exception {
+            public HashMap<Integer, List<T>> apply(@NonNull Resource<List<Video>> trailerList, @NonNull Resource<List<Review>> reviewList) throws Exception {
                 HashMap<Integer, List<T>> datas = new HashMap<>();
-                datas.put(Constants.ADAPTER_TYPE.TRAILER_ADAPTER, (List<T>) listResource.data);
-                datas.put(Constants.ADAPTER_TYPE.REVIEW_ADAPTER, (List<T>) listResource2.data);
+                datas.put(Constants.ADAPTER_TYPE.TRAILER_ADAPTER, (List<T>) trailerList.data);
+                datas.put(Constants.ADAPTER_TYPE.REVIEW_ADAPTER, (List<T>) reviewList.data);
                 return datas;
             }
         }).subscribe(new ResourceSubscriber<HashMap<Integer, List<T>>>() {

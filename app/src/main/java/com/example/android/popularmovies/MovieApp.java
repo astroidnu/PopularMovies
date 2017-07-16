@@ -32,7 +32,7 @@ public class MovieApp extends Application{
     protected AppComponent createAppComponent() {
         return appComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
-                .networkModule(new NetworkModule())
+                .networkModule(new NetworkModule(this))
                 .build();
     }
 
