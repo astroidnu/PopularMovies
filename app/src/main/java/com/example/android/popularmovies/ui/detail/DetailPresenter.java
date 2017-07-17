@@ -2,6 +2,7 @@ package com.example.android.popularmovies.ui.detail;
 
 import android.util.Log;
 
+import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.data.Review;
 import com.example.android.popularmovies.data.Video;
 import com.example.android.popularmovies.model.MovieModel;
@@ -32,6 +33,9 @@ public class DetailPresenter implements DetailContract.UserActionListener {
     private ReviewModel mReviewModel;
     private TrailerModel mTrailerModel;
 
+    private List<Video> mListTrailer;
+    private List<Review> mListReview;
+
     public DetailPresenter(MainRepository mainRepository, MovieModel movieModel,  ReviewModel reviewModel,TrailerModel trailerModel) {
         this.mainRepository = mainRepository;
         mMovieModel = movieModel;
@@ -56,8 +60,9 @@ public class DetailPresenter implements DetailContract.UserActionListener {
         }).subscribe(new ResourceSubscriber<HashMap<Integer, List<T>>>() {
             @Override
             public void onNext(HashMap<Integer, List<T>> data) {
-                mView.setAllAdapter(data.get(Constants.ADAPTER_TYPE.TRAILER_ADAPTER), Constants.ADAPTER_TYPE.TRAILER_ADAPTER);
-                mView.setAllAdapter(data.get(Constants.ADAPTER_TYPE.REVIEW_ADAPTER), Constants.ADAPTER_TYPE.REVIEW_ADAPTER);
+                mListReview = (List<Review>) data.get(1);
+                mListTrailer = (List<Video>) data.get(0);
+                setAdapter(data);
             }
 
             @Override
@@ -70,5 +75,27 @@ public class DetailPresenter implements DetailContract.UserActionListener {
 
             }
         });
+    }
+
+    @Override
+    public <T> void setAdapter(HashMap<Integer, List<T>> data) {
+        for(int i = 0; i<data.size();i++){
+            mView.setAllAdapter(data.get(i), i);
+        }
+    }
+
+    @Override
+    public void saveFavorite(Movie movie) {
+        if(mListReview != null && mListTrailer != null && movie != null){
+            mMovieModel.insertMovie(movie);
+            for(Review review:mListReview){
+                mReviewModel.insertReview(review);
+            }
+            for(Video video:mListTrailer){
+                mTrailerModel.insertTrailer(video);
+            }
+        }else{
+            Log.d(getClass().getName(), "Please wait until complete");
+        }
     }
 }

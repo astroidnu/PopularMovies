@@ -42,6 +42,8 @@ public class Movie implements Parcelable {
     private String overview;
     @SerializedName("release_date")
     private String releaseDate;
+    @SerializedName("is_favorite")
+    private boolean isFavorite;
 
 
     protected Movie(Parcel in) {
@@ -58,6 +60,7 @@ public class Movie implements Parcelable {
         adult = in.readByte() != 0;
         overview = in.readString();
         releaseDate = in.readString();
+        isFavorite = in.readByte() != 0;
     }
 
     @Generated(hash = 218955719)
@@ -116,6 +119,7 @@ public class Movie implements Parcelable {
         parcel.writeByte((byte) (adult ? 1 : 0));
         parcel.writeString(overview);
         parcel.writeString(releaseDate);
+        parcel.writeLong((byte)(isFavorite ? 1:0));
     }
 
     public int getVoteCount() {
@@ -228,5 +232,13 @@ public class Movie implements Parcelable {
 
     public boolean getAdult() {
         return this.adult;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 }
