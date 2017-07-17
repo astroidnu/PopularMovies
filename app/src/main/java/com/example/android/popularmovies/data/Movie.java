@@ -63,11 +63,12 @@ public class Movie implements Parcelable {
         isFavorite = in.readByte() != 0;
     }
 
-    @Generated(hash = 218955719)
+    @Generated(hash = 656969314)
     public Movie(int voteCount, int id, boolean video, float voteAverage,
             String title, float popularity, String posterPath,
             String originalLanguage, String originalTitle, String backdropPath,
-            boolean adult, String overview, String releaseDate) {
+            boolean adult, String overview, String releaseDate,
+            boolean isFavorite) {
         this.voteCount = voteCount;
         this.id = id;
         this.video = video;
@@ -81,6 +82,7 @@ public class Movie implements Parcelable {
         this.adult = adult;
         this.overview = overview;
         this.releaseDate = releaseDate;
+        this.isFavorite = isFavorite;
     }
 
     @Generated(hash = 1263461133)
@@ -240,5 +242,13 @@ public class Movie implements Parcelable {
 
     public void setFavorite(boolean favorite) {
         isFavorite = favorite;
+    }
+
+    public boolean getIsFavorite() {
+        return this.isFavorite;
+    }
+
+    public void setIsFavorite(boolean isFavorite) {
+        this.isFavorite = isFavorite;
     }
 }
