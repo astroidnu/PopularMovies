@@ -19,6 +19,7 @@ public class DetailContract {
         void showData(Movie movie) throws MalformedURLException;
         void showLoading();
         <T> void setAllAdapter(List<T> data, int adapterId);
+        void isFavorite(boolean stat);
     }
 
     public interface UserActionListener{

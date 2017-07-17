@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Unique;
 
 /**
  * Created by ibnumuzzakkir on 15/06/2017.
@@ -18,6 +19,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class Movie implements Parcelable {
     @SerializedName("vote_count")
     private int voteCount;
+    @Unique
     @SerializedName("id")
     private int id;
     @SerializedName("video")

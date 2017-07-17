@@ -52,7 +52,7 @@ public class MovieDao extends AbstractDao<Movie, Void> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"MOVIE\" (" + //
                 "\"VOTE_COUNT\" INTEGER NOT NULL ," + // 0: voteCount
-                "\"ID\" INTEGER NOT NULL ," + // 1: id
+                "\"ID\" INTEGER NOT NULL UNIQUE ," + // 1: id
                 "\"VIDEO\" INTEGER NOT NULL ," + // 2: video
                 "\"VOTE_AVERAGE\" REAL NOT NULL ," + // 3: voteAverage
                 "\"TITLE\" TEXT," + // 4: title

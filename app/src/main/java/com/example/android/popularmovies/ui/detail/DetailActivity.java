@@ -104,10 +104,20 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 Movie movie = getIntent().getParcelableExtra("data");
                 showData(movie);
                 mActionListener.getReviewAndTrailerList(String.valueOf(movie.getId()));
+                if(movie.getIsFavorite()){
+                    mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorAccent));
+                }else{
+                    mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorWhite));
+                }
                 mBtnFavorite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mActionListener.saveFavorite(movie);
+                        if(movie.getIsFavorite()){
+                            mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorAccent));
+                        }else{
+                            mActionListener.saveFavorite(movie);
+                            mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorWhite));
+                        }
                     }
                 });
             }
@@ -173,6 +183,16 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 break;
         }
 
+    }
+
+    @Override
+    public void isFavorite(boolean stat) {
+//        mBtnFavorite.setImageTintList();
+        if(stat){
+
+        }else{
+
+        }
     }
 
     @Override
