@@ -35,7 +35,6 @@ public class MovieDao extends AbstractDao<Movie, Void> {
         public final static Property Adult = new Property(10, boolean.class, "adult", false, "ADULT");
         public final static Property Overview = new Property(11, String.class, "overview", false, "OVERVIEW");
         public final static Property ReleaseDate = new Property(12, String.class, "releaseDate", false, "RELEASE_DATE");
-        public final static Property IsFavorite = new Property(13, boolean.class, "isFavorite", false, "IS_FAVORITE");
     }
 
 
@@ -63,8 +62,7 @@ public class MovieDao extends AbstractDao<Movie, Void> {
                 "\"BACKDROP_PATH\" TEXT," + // 9: backdropPath
                 "\"ADULT\" INTEGER NOT NULL ," + // 10: adult
                 "\"OVERVIEW\" TEXT," + // 11: overview
-                "\"RELEASE_DATE\" TEXT," + // 12: releaseDate
-                "\"IS_FAVORITE\" INTEGER NOT NULL );"); // 13: isFavorite
+                "\"RELEASE_DATE\" TEXT);"); // 12: releaseDate
     }
 
     /** Drops the underlying database table. */
@@ -117,7 +115,6 @@ public class MovieDao extends AbstractDao<Movie, Void> {
         if (releaseDate != null) {
             stmt.bindString(13, releaseDate);
         }
-        stmt.bindLong(14, entity.getIsFavorite() ? 1L: 0L);
     }
 
     @Override
@@ -164,7 +161,6 @@ public class MovieDao extends AbstractDao<Movie, Void> {
         if (releaseDate != null) {
             stmt.bindString(13, releaseDate);
         }
-        stmt.bindLong(14, entity.getIsFavorite() ? 1L: 0L);
     }
 
     @Override
@@ -187,8 +183,7 @@ public class MovieDao extends AbstractDao<Movie, Void> {
             cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // backdropPath
             cursor.getShort(offset + 10) != 0, // adult
             cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // overview
-            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // releaseDate
-            cursor.getShort(offset + 13) != 0 // isFavorite
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // releaseDate
         );
         return entity;
     }
@@ -208,7 +203,6 @@ public class MovieDao extends AbstractDao<Movie, Void> {
         entity.setAdult(cursor.getShort(offset + 10) != 0);
         entity.setOverview(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
         entity.setReleaseDate(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
-        entity.setIsFavorite(cursor.getShort(offset + 13) != 0);
      }
     
     @Override

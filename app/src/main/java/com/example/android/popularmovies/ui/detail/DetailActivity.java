@@ -104,20 +104,20 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 Movie movie = getIntent().getParcelableExtra("data");
                 showData(movie);
                 mActionListener.getReviewAndTrailerList(String.valueOf(movie.getId()));
-                if(movie.getIsFavorite()){
-                    mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorAccent));
-                }else{
-                    mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorWhite));
-                }
+//                if(movie.getIsFavorite()){
+//                    mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorAccent));
+//                }else{
+//                    mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorWhite));
+//                }
                 mBtnFavorite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(movie.getIsFavorite()){
-                            mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorAccent));
-                        }else{
-                            mActionListener.saveFavorite(movie);
-                            mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorWhite));
-                        }
+//                        if(movie.getIsFavorite()){
+//                            mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorAccent));
+//                        }else{
+//                            mActionListener.saveFavorite(movie);
+//                            mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorWhite));
+//                        }
                     }
                 });
             }
@@ -169,7 +169,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 mMovieTrailerRV.setAdapter(trailerAdapter);
                 break;
             case Constants.ADAPTER_TYPE.REVIEW_ADAPTER:
-                if(data.size() > 0){
+                if(data != null && data.size() > 0){
                     mReviewRV.setVisibility(View.VISIBLE);
                     mLayoutNoReview.setVisibility(View.GONE);
                     mLinearLayoutManager = new LinearLayoutManager(this);

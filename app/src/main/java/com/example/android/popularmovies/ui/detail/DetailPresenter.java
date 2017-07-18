@@ -86,7 +86,7 @@ public class DetailPresenter implements DetailContract.UserActionListener {
 
     @Override
     public void saveFavorite(Movie movie) {
-        movie.setFavorite(true);
+//        movie.setFavorite(true);
         if(mListReview != null && mListTrailer != null && movie != null){
             mMovieModel.insertMovie(movie);
             for(Review review:mListReview){

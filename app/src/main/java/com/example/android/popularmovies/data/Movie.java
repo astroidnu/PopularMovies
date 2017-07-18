@@ -44,8 +44,6 @@ public class Movie implements Parcelable {
     private String overview;
     @SerializedName("release_date")
     private String releaseDate;
-    @SerializedName("is_favorite")
-    private boolean isFavorite;
 
 
     protected Movie(Parcel in) {
@@ -62,15 +60,13 @@ public class Movie implements Parcelable {
         adult = in.readByte() != 0;
         overview = in.readString();
         releaseDate = in.readString();
-        isFavorite = in.readByte() != 0;
     }
 
-    @Generated(hash = 656969314)
+    @Generated(hash = 218955719)
     public Movie(int voteCount, int id, boolean video, float voteAverage,
             String title, float popularity, String posterPath,
             String originalLanguage, String originalTitle, String backdropPath,
-            boolean adult, String overview, String releaseDate,
-            boolean isFavorite) {
+            boolean adult, String overview, String releaseDate) {
         this.voteCount = voteCount;
         this.id = id;
         this.video = video;
@@ -84,7 +80,6 @@ public class Movie implements Parcelable {
         this.adult = adult;
         this.overview = overview;
         this.releaseDate = releaseDate;
-        this.isFavorite = isFavorite;
     }
 
     @Generated(hash = 1263461133)
@@ -123,7 +118,6 @@ public class Movie implements Parcelable {
         parcel.writeByte((byte) (adult ? 1 : 0));
         parcel.writeString(overview);
         parcel.writeString(releaseDate);
-        parcel.writeLong((byte)(isFavorite ? 1:0));
     }
 
     public int getVoteCount() {
@@ -236,21 +230,5 @@ public class Movie implements Parcelable {
 
     public boolean getAdult() {
         return this.adult;
-    }
-
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
-    public void setFavorite(boolean favorite) {
-        isFavorite = favorite;
-    }
-
-    public boolean getIsFavorite() {
-        return this.isFavorite;
-    }
-
-    public void setIsFavorite(boolean isFavorite) {
-        this.isFavorite = isFavorite;
     }
 }
