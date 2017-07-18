@@ -81,6 +81,10 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     RecyclerView mReviewRV;
     @BindView(R.id.detail_movie_no_review)
     LinearLayout mLayoutNoReview;
+    @BindView(R.id.detail_movie_no_trailer)
+    LinearLayout mLayoutNoTrailer;
+    @BindView(R.id.no_review_title)
+    TextView mNoReviewTitle;
 
     private DetailContract.UserActionListener mActionListener;
     private TrailerAdapter trailerAdapter;
@@ -98,40 +102,20 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         showLoading();
-
-
-
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if(extras != null){
-            if(extras.containsKey("data")){
-                Movie movie = getIntent().getParcelableExtra("data");
+            if(extras.containsKey(Constants.INTENT_TAG.TAG_DATA)){
+                Movie movie = getIntent().getParcelableExtra(Constants.INTENT_TAG.TAG_DATA);
                 showData(movie);
                 mActionListener.getReviewAndTrailerList(String.valueOf(movie.getId()));
                 mActionListener.checkFavorite(movie.getId());
-                mBtnFavorite.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mActionListener.saveFavorite(movie);
-                    }
-                });
+                mBtnFavorite.setOnClickListener(v -> mActionListener.saveFavorite(movie));
             }
 
-            if(extras.containsKey("source")){
-                int source = getIntent().getIntExtra("source",0);
-                switch (source){
-                    case Constants.SORT_TYPE.FAVORITE:
-                        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent i = new Intent(DetailActivity.this, MainActivity.class);
-                                i.putExtra("source", Constants.SORT_TYPE.FAVORITE);
-                                startActivity(i);
-                            }
-                        });
-                        break;
-
-                }
+            if(extras.containsKey(Constants.INTENT_TAG.TAG_SOURCE)){
+                int source = getIntent().getIntExtra(Constants.INTENT_TAG.TAG_SOURCE,0);
+                backToMain(source);
             }
         }
     }
@@ -176,10 +160,19 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     public <T> void setAllAdapter(List<T> data, int adapterId){
         switch (adapterId){
             case Constants.ADAPTER_TYPE.TRAILER_ADAPTER:
-                mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-                mMovieTrailerRV.setLayoutManager(mLinearLayoutManager);
-                trailerAdapter = new TrailerAdapter(data, this);
-                mMovieTrailerRV.setAdapter(trailerAdapter);
+                if(data != null && data.size() > 0){
+                    mMovieTrailerRV.setVisibility(View.VISIBLE);
+                    mLayoutNoTrailer.setVisibility(View.GONE);
+                    mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                    mMovieTrailerRV.setLayoutManager(mLinearLayoutManager);
+                    trailerAdapter = new TrailerAdapter(data, this);
+                    mMovieTrailerRV.setAdapter(trailerAdapter);
+                }else{
+                    mMovieTrailerRV.setVisibility(View.GONE);
+                    mNoReviewTitle.setText(getResources().getString(R.string.movie_no_review));
+                    mLayoutNoTrailer.setVisibility(View.VISIBLE);
+                }
+
                 break;
             case Constants.ADAPTER_TYPE.REVIEW_ADAPTER:
                 if(data != null && data.size() > 0){
@@ -191,6 +184,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                     mReviewRV.setAdapter(reviewAdapter);
                 }else{
                     mReviewRV.setVisibility(View.GONE);
+                    mNoReviewTitle.setText(getResources().getString(R.string.movie_no_review));
                     mLayoutNoReview.setVisibility(View.VISIBLE);
                 }
                 break;
@@ -208,8 +202,17 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     @Override
-    public void backToMain() {
-        Intent intent = new Intent(this, MainActivity.class);
+    public void backToMain(int source) {
+        switch (source){
+            case Constants.SORT_TYPE.FAVORITE:
+                mToolbar.setNavigationOnClickListener(v -> {
+                    Intent i = new Intent(DetailActivity.this, MainActivity.class);
+                    i.putExtra("source", Constants.SORT_TYPE.FAVORITE);
+                    startActivity(i);
+                });
+                break;
+
+        }
     }
 
     @Override

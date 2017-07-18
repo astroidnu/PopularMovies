@@ -116,8 +116,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if(extras != null) {
-            if (extras.containsKey("source")) {
-                int mSource = getIntent().getIntExtra("source",0);
+            if (extras.containsKey(Constants.INTENT_TAG.TAG_SOURCE)) {
+                int mSource = getIntent().getIntExtra(Constants.INTENT_TAG.TAG_SOURCE,0);
                 switch (mSource){
                     case Constants.SORT_TYPE.FAVORITE:
                         mActionListener.getMovies(Constants.SORT_TYPE.FAVORITE);

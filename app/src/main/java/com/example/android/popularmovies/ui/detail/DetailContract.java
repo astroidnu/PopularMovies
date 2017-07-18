@@ -21,7 +21,7 @@ public class DetailContract {
         void showLoading();
         <T> void setAllAdapter(List<T> data, int adapterId);
         void isFavorite(boolean stat);
-        void backToMain();
+        void backToMain(int source);
     }
 
     public interface UserActionListener{

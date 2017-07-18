@@ -25,4 +25,9 @@ public class Constants {
         int TRAILER_ADAPTER = 0;
         int REVIEW_ADAPTER = 1;
     }
+
+    public interface INTENT_TAG{
+        String TAG_SOURCE = "source";
+        String TAG_DATA = "data";
+    }
 }

@@ -35,8 +35,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
      * Constructor Movie Adapter
      * */
 
-    public MovieAdapter(){}
-
     public MovieAdapter(List<Movie> movies, Context context, int type){
         mMovies.addAll(movies);
         mContext = context;
@@ -61,8 +59,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
 
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, DetailActivity.class);
-            intent.putExtra("data", movie);
-            intent.putExtra("source",mTypeAdapter);
+            intent.putExtra(Constants.INTENT_TAG.TAG_DATA, movie);
+            intent.putExtra(Constants.INTENT_TAG.TAG_SOURCE,mTypeAdapter);
             mContext.startActivity(intent);
         });
     }

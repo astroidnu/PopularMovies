@@ -14,6 +14,10 @@
     <string name="movie_header">Movie Header</string>
     <string name="movie_poster">Movie Poster</string>
     <string name="movie_image">Movie Image</string>
+    <string name="movie_trailer">Trailer</string>
+    <string name="movie_review">Review</string>
+    <string name="movie_no_review">No Review</string>
+    <string name="movie_no_trailer">No Trailer</string>
 
     <!--Title APP-->
     <string name="pop_movie">Pop Movie</string>
@@ -21,9 +25,4 @@
     <!--BASE URL-->
     <string name="youtube_video_thumbnail" translatable="false">https://img.youtube.com/vi/%s/0.jpg</string>
 
-    <!--Array Adapter-->
-    <array name="list_adapter">
-        <item>Movie Trailer</item>
-        <item>Movie Review</item>
-    </array>
 </resources>

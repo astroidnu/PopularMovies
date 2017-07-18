@@ -10,14 +10,14 @@
     <TextView
         android:textStyle="bold"
         android:textSize="16sp"
-        tools:text="Ibnu Muzzakkir"
+        tools:text="Ibnu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/review_title"/>
     <TextView
         android:textSize="14sp"
         android:layout_marginTop="8dp"
-        tools:text="Komennya cihuy dong"
+        tools:text="Komen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/review_content"/>

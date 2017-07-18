@@ -74,13 +74,17 @@
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Movie Trailers"/>
+                android:text="@string/movie_trailer"/>
         </LinearLayout>
     </android.support.v7.widget.CardView>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/detail_movie_movie_trailer_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <include
+        android:visibility="gone"
+        layout="@layout/item_no_review"
+        android:id="@+id/detail_movie_no_trailer"/>
     <android.support.v7.widget.CardView
         app:cardElevation="0dp"
         android:layout_width="match_parent"
@@ -92,7 +96,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:textSize="18sp"
-                android:text="Reviews"
+                android:text="@string/movie_review"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
