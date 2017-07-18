@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 import org.greenrobot.greendao.annotation.Unique;
 
 /**
@@ -19,9 +20,9 @@ import org.greenrobot.greendao.annotation.Unique;
 public class Movie implements Parcelable {
     @SerializedName("vote_count")
     private int voteCount;
-    @Unique
+    @Id
     @SerializedName("id")
-    private int id;
+    private long id;
     @SerializedName("video")
     private boolean video;
     @SerializedName("vote_average")
@@ -48,7 +49,7 @@ public class Movie implements Parcelable {
 
     protected Movie(Parcel in) {
         voteCount = in.readInt();
-        id = in.readInt();
+        id = in.readLong();
         video = in.readByte() != 0;
         voteAverage = in.readFloat();
         title = in.readString();
@@ -62,8 +63,8 @@ public class Movie implements Parcelable {
         releaseDate = in.readString();
     }
 
-    @Generated(hash = 218955719)
-    public Movie(int voteCount, int id, boolean video, float voteAverage,
+    @Generated(hash = 1638780)
+    public Movie(int voteCount, long id, boolean video, float voteAverage,
             String title, float popularity, String posterPath,
             String originalLanguage, String originalTitle, String backdropPath,
             boolean adult, String overview, String releaseDate) {
@@ -85,6 +86,7 @@ public class Movie implements Parcelable {
     @Generated(hash = 1263461133)
     public Movie() {
     }
+    
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
@@ -106,7 +108,7 @@ public class Movie implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(voteCount);
-        parcel.writeInt(id);
+        parcel.writeLong(id);
         parcel.writeByte((byte) (video ? 1 : 0));
         parcel.writeFloat(voteAverage);
         parcel.writeString(title);
@@ -128,11 +130,11 @@ public class Movie implements Parcelable {
         this.voteCount = voteCount;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

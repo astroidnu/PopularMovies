@@ -35,8 +35,14 @@ public class MainActivityModule {
 
     @Provides
     @ActivityScope
-    MainPresenter provideMainPresenter(MainRepository mainRepository) {
-        return new MainPresenter(mainRepository);
+    MovieModel provideMovieModel(DaoSession daoSession){
+        return new MovieModel(daoSession);
+    }
+
+    @Provides
+    @ActivityScope
+    MainPresenter provideMainPresenter(MainRepository mainRepository, MovieModel movieModel) {
+        return new MainPresenter(mainRepository, movieModel);
     }
 
 }

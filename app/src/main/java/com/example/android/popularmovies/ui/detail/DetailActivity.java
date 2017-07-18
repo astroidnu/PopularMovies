@@ -25,7 +25,9 @@ import com.example.android.popularmovies.MovieApp;
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.adapter.ReviewAdapter;
 import com.example.android.popularmovies.adapter.TrailerAdapter;
+import com.example.android.popularmovies.data.Favorite;
 import com.example.android.popularmovies.data.Movie;
+import com.example.android.popularmovies.ui.home.MainActivity;
 import com.example.android.popularmovies.utils.Constants;
 import com.squareup.picasso.Picasso;
 
@@ -97,6 +99,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         showLoading();
 
+
+
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
         if(extras != null){
@@ -104,22 +108,30 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 Movie movie = getIntent().getParcelableExtra("data");
                 showData(movie);
                 mActionListener.getReviewAndTrailerList(String.valueOf(movie.getId()));
-//                if(movie.getIsFavorite()){
-//                    mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorAccent));
-//                }else{
-//                    mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorWhite));
-//                }
+                mActionListener.checkFavorite(movie.getId());
                 mBtnFavorite.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        if(movie.getIsFavorite()){
-//                            mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorAccent));
-//                        }else{
-//                            mActionListener.saveFavorite(movie);
-//                            mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorWhite));
-//                        }
+                        mActionListener.saveFavorite(movie);
                     }
                 });
+            }
+
+            if(extras.containsKey("source")){
+                int source = getIntent().getIntExtra("source",0);
+                switch (source){
+                    case Constants.SORT_TYPE.FAVORITE:
+                        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent(DetailActivity.this, MainActivity.class);
+                                i.putExtra("source", Constants.SORT_TYPE.FAVORITE);
+                                startActivity(i);
+                            }
+                        });
+                        break;
+
+                }
             }
         }
     }
@@ -130,6 +142,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 .plus(new DetailActivityModule(this))
                 .inject(this);
     }
+
 
     @Override
     public void showData(Movie movie){
@@ -187,12 +200,16 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
 
     @Override
     public void isFavorite(boolean stat) {
-//        mBtnFavorite.setImageTintList();
         if(stat){
-
+            mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorAccent));
         }else{
-
+            mBtnFavorite.setColorFilter(getResources().getColor(R.color.colorWhite));
         }
+    }
+
+    @Override
+    public void backToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
     }
 
     @Override

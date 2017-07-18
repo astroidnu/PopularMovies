@@ -13,7 +13,7 @@ import org.greenrobot.greendao.database.DatabaseStatement;
 /** 
  * DAO for table "FAVORITE".
 */
-public class FavoriteDao extends AbstractDao<Favorite, Void> {
+public class FavoriteDao extends AbstractDao<Favorite, Long> {
 
     public static final String TABLENAME = "FAVORITE";
 
@@ -22,7 +22,7 @@ public class FavoriteDao extends AbstractDao<Favorite, Void> {
      * Can be used for QueryBuilder and for referencing column names.
      */
     public static class Properties {
-        public final static Property Id = new Property(0, String.class, "id", false, "ID");
+        public final static Property Id = new Property(0, long.class, "id", true, "_id");
         public final static Property Title = new Property(1, String.class, "title", false, "TITLE");
     }
 
@@ -39,7 +39,7 @@ public class FavoriteDao extends AbstractDao<Favorite, Void> {
     public static void createTable(Database db, boolean ifNotExists) {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"FAVORITE\" (" + //
-                "\"ID\" TEXT UNIQUE ," + // 0: id
+                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 0: id
                 "\"TITLE\" TEXT);"); // 1: title
     }
 
@@ -52,11 +52,7 @@ public class FavoriteDao extends AbstractDao<Favorite, Void> {
     @Override
     protected final void bindValues(DatabaseStatement stmt, Favorite entity) {
         stmt.clearBindings();
- 
-        String id = entity.getId();
-        if (id != null) {
-            stmt.bindString(1, id);
-        }
+        stmt.bindLong(1, entity.getId());
  
         String title = entity.getTitle();
         if (title != null) {
@@ -67,11 +63,7 @@ public class FavoriteDao extends AbstractDao<Favorite, Void> {
     @Override
     protected final void bindValues(SQLiteStatement stmt, Favorite entity) {
         stmt.clearBindings();
- 
-        String id = entity.getId();
-        if (id != null) {
-            stmt.bindString(1, id);
-        }
+        stmt.bindLong(1, entity.getId());
  
         String title = entity.getTitle();
         if (title != null) {
@@ -80,14 +72,14 @@ public class FavoriteDao extends AbstractDao<Favorite, Void> {
     }
 
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.getLong(offset + 0);
     }    
 
     @Override
     public Favorite readEntity(Cursor cursor, int offset) {
         Favorite entity = new Favorite( //
-            cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // id
+            cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1) // title
         );
         return entity;
@@ -95,25 +87,28 @@ public class FavoriteDao extends AbstractDao<Favorite, Void> {
      
     @Override
     public void readEntity(Cursor cursor, Favorite entity, int offset) {
-        entity.setId(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
+        entity.setId(cursor.getLong(offset + 0));
         entity.setTitle(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
      }
     
     @Override
-    protected final Void updateKeyAfterInsert(Favorite entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected final Long updateKeyAfterInsert(Favorite entity, long rowId) {
+        entity.setId(rowId);
+        return rowId;
     }
     
     @Override
-    public Void getKey(Favorite entity) {
-        return null;
+    public Long getKey(Favorite entity) {
+        if(entity != null) {
+            return entity.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean hasKey(Favorite entity) {
-        // TODO
-        return false;
+        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
     }
 
     @Override

@@ -7,6 +7,8 @@
     <string name="movie_vote_average_sample">8.1 / 10</string>
     <string name="filter_most_popular">Most Popular</string>
     <string name="filter_top_rated">Top Rated</string>
+    <string name="filter_favorite">Favorite</string>
+    <string name="no_data">No Data</string>
 
     <!--TAG DESCRIPTION-->
     <string name="movie_header">Movie Header</string>

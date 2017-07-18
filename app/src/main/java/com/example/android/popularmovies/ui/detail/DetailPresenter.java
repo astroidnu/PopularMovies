@@ -2,9 +2,12 @@ package com.example.android.popularmovies.ui.detail;
 
 import android.util.Log;
 
+import com.example.android.popularmovies.adapter.MovieAdapter;
+import com.example.android.popularmovies.data.Favorite;
 import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.data.Review;
 import com.example.android.popularmovies.data.Video;
+import com.example.android.popularmovies.model.FavoriteModel;
 import com.example.android.popularmovies.model.MovieModel;
 import com.example.android.popularmovies.model.ReviewModel;
 import com.example.android.popularmovies.model.TrailerModel;
@@ -16,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.subscribers.ResourceSubscriber;
@@ -29,18 +33,16 @@ import io.reactivex.subscribers.ResourceSubscriber;
 public class DetailPresenter implements DetailContract.UserActionListener {
     private DetailContract.View mView;
     private MainRepository mainRepository;
+    private FavoriteModel mFavoriteModel;
     private MovieModel mMovieModel;
-    private ReviewModel mReviewModel;
-    private TrailerModel mTrailerModel;
 
     private List<Video> mListTrailer;
     private List<Review> mListReview;
 
-    public DetailPresenter(MainRepository mainRepository, MovieModel movieModel,  ReviewModel reviewModel,TrailerModel trailerModel) {
+    public DetailPresenter(MainRepository mainRepository, FavoriteModel favoriteModel, MovieModel movieModel) {
         this.mainRepository = mainRepository;
+        mFavoriteModel = favoriteModel;
         mMovieModel = movieModel;
-        mReviewModel = reviewModel;
-        mTrailerModel = trailerModel;
     }
 
     public void setView(DetailContract.View mView) {
@@ -86,17 +88,35 @@ public class DetailPresenter implements DetailContract.UserActionListener {
 
     @Override
     public void saveFavorite(Movie movie) {
-//        movie.setFavorite(true);
-        if(mListReview != null && mListTrailer != null && movie != null){
+        Favorite favoriteList = selectFavorite(Long.valueOf(movie.getId()));
+        if(favoriteList == null){
+            Favorite favorite = new Favorite();
+            favorite.setId(movie.getId());
+            favorite.setTitle(movie.getTitle());
+            mFavoriteModel.insertFavorite(favorite);
             mMovieModel.insertMovie(movie);
-            for(Review review:mListReview){
-                mReviewModel.insertReview(review);
-            }
-            for(Video video:mListTrailer){
-                mTrailerModel.insertTrailer(video);
-            }
+            mView.isFavorite(true);
         }else{
-            Log.d(getClass().getName(), "Please wait until complete");
+            mFavoriteModel.deleteFavorite(favoriteList);
+            mMovieModel.deleteMovie(movie);
+            Flowable.just("Hello");
+            mView.isFavorite(false);
         }
+    }
+
+    @Override
+    public void checkFavorite(long id) {
+        Favorite favoriteList = selectFavorite(id);
+        if(favoriteList != null){
+            mView.isFavorite(true);
+        }else{
+            mView.isFavorite(false);
+        }
+    }
+
+
+
+    private Favorite selectFavorite(long id) {
+        return  mFavoriteModel.selectFavorite(id);
     }
 }

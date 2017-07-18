@@ -1,5 +1,6 @@
 package com.example.android.popularmovies.ui.detail;
 
+import com.example.android.popularmovies.data.Favorite;
 import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.data.Review;
 import com.example.android.popularmovies.data.Video;
@@ -20,11 +21,13 @@ public class DetailContract {
         void showLoading();
         <T> void setAllAdapter(List<T> data, int adapterId);
         void isFavorite(boolean stat);
+        void backToMain();
     }
 
     public interface UserActionListener{
         <T> void getReviewAndTrailerList(String id);
         <T>void setAdapter(HashMap<Integer, List<T>> data);
         void saveFavorite(Movie movie);
+        void checkFavorite(long id);
     }
 }

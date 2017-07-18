@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Unique;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * Created by ibnumuzzakkir on 7/18/17.
@@ -16,26 +16,29 @@ import org.greenrobot.greendao.annotation.Unique;
  */
 @Entity
 public class Favorite implements Parcelable {
-    @Unique
+    @Id
     @SerializedName("id")
-    public String id;
+    public long id;
     @SerializedName("title")
     public String title;
 
     protected Favorite(Parcel in) {
-        id = in.readString();
+        id = in.readLong();
         title = in.readString();
     }
 
-    @Generated(hash = 909337631)
-    public Favorite(String id, String title) {
-        this.id = id;
-        this.title = title;
-    }
 
     @Generated(hash = 459811785)
     public Favorite() {
     }
+
+
+    @Generated(hash = 570556283)
+    public Favorite(long id, String title) {
+        this.id = id;
+        this.title = title;
+    }
+
 
     public static final Creator<Favorite> CREATOR = new Creator<Favorite>() {
         @Override
@@ -48,14 +51,6 @@ public class Favorite implements Parcelable {
             return new Favorite[size];
         }
     };
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -72,7 +67,18 @@ public class Favorite implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
+        dest.writeLong(id);
         dest.writeString(title);
     }
+
+
+    public long getId() {
+        return this.id;
+    }
+
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
 }

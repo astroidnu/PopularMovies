@@ -12,7 +12,7 @@ import java.util.List;
 
 public class MainContract {
     public interface View{
-        void setAdapter(List<Movie> movieList);
+        void setAdapter(List<Movie> movieList, int typeAdapter);
         void showLoading();
         void hideLoading();
 

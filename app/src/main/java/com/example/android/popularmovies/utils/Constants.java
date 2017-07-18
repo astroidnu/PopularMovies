@@ -18,6 +18,7 @@ public class Constants {
     public interface SORT_TYPE{
         int POPULAR_MOVIES = 0;
         int TOP_RATED_MOVIES = 1;
+        int FAVORITE = 2;
     }
 
     public interface ADAPTER_TYPE{

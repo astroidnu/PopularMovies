@@ -9,6 +9,15 @@
         android:id="@+id/main_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <TextView
+        android:id="@+id/main_no_data"
+        android:visibility="gone"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/no_data"/>
     <ProgressBar
         android:id="@+id/main_progress_bar"
         android:layout_width="match_parent"

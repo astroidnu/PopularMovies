@@ -34,9 +34,9 @@ public class FavoriteModel extends BaseModel {
         mFavoriteDao.delete(favorite);
     }
 
-    @NonNull
-    public List<Favorite> selectAllFavorite(String id){
-       return mFavoriteDao.queryBuilder().where(FavoriteDao.Properties.Id.eq(id)).list();
+    @Nullable
+    public Favorite selectFavorite(long id){
+       return mFavoriteDao.load(id);
     }
 
 }

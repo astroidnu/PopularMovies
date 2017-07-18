@@ -7,7 +7,14 @@ import com.example.android.popularmovies.data.DaoSession;
 import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.data.MovieDao;
 
+import org.greenrobot.greendao.rx.RxDao;
+import org.greenrobot.greendao.rx.RxQuery;
+
 import java.util.List;
+
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by ibnumuzzakkir on 7/16/17.
@@ -29,7 +36,14 @@ public class MovieModel extends BaseModel {
     }
 
     @Nullable
-    public List<Movie> getAllMovies(){
-        return mMovieDao.loadAll();
+    public Flowable<List<Movie>> getAllMovies(){
+        return  Flowable.just(mMovieDao.loadAll())
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Nullable
+    public void deleteMovie(Movie movie){
+         mMovieDao.delete(movie);
     }
 }

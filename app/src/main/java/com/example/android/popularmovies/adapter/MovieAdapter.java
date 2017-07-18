@@ -2,7 +2,9 @@ package com.example.android.popularmovies.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import com.example.android.popularmovies.ui.detail.DetailActivity;
 import com.example.android.popularmovies.utils.Constants;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,18 +26,27 @@ import java.util.List;
  */
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
-    private List<Movie> mMovies;
+    private List<Movie> mMovies = new ArrayList<>();
     private Context mContext;
     private LayoutInflater mLayoutInflater;
+    private int mTypeAdapter;
 
-    public MovieAdapter(List<Movie> movies, Context context){
-        mMovies = movies;
+    /**
+     * Constructor Movie Adapter
+     * */
+
+    public MovieAdapter(){}
+
+    public MovieAdapter(List<Movie> movies, Context context, int type){
+        mMovies.addAll(movies);
         mContext = context;
-        mLayoutInflater = LayoutInflater.from(context);
+        mTypeAdapter = type;
         notifyDataSetChanged();
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        mLayoutInflater = LayoutInflater.from(parent.getContext());
         View itemView = mLayoutInflater.inflate(R.layout.item_movie, parent, false);
         return new ViewHolder(itemView);
     }
@@ -50,6 +62,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(view -> {
             Intent intent = new Intent(mContext, DetailActivity.class);
             intent.putExtra("data", movie);
+            intent.putExtra("source",mTypeAdapter);
             mContext.startActivity(intent);
         });
     }

@@ -1,5 +1,6 @@
 package com.example.android.popularmovies.ui.home;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.android.popularmovies.MovieApp;
 import com.example.android.popularmovies.R;
@@ -17,11 +19,13 @@ import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.utils.Constants;
 
 import java.util.List;
+import java.util.Observable;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.Flowable;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
     @Inject
@@ -31,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     RecyclerView mMovieRV;
     @BindView(R.id.main_progress_bar)
     ProgressBar mProgressBar;
+    @BindView(R.id.main_no_data)
+    TextView mMainNoData;
 
     private MainContract.UserActionListener mActionListener;
     private MovieAdapter movieAdapter;
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mActionListener = mainPresenter;
         mainPresenter.setView(this);
         mActionListener.getMovies(Constants.SORT_TYPE.POPULAR_MOVIES);
+        checkSourceIntent();
     }
 
     private void setupActivityComponent() {
@@ -55,11 +62,19 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     }
 
     @Override
-    public void setAdapter(List<Movie> movies) {
-        mGridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        mMovieRV.setLayoutManager(mGridLayoutManager);
-        movieAdapter = new MovieAdapter(movies, this);
-        mMovieRV.setAdapter(movieAdapter);
+    public void setAdapter(List<Movie> movies, int typeAdapter) {
+        if(movies.size() > 0){
+            mMainNoData.setVisibility(View.GONE);
+            mMovieRV.setVisibility(View.VISIBLE);
+            mGridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+            mMovieRV.setLayoutManager(mGridLayoutManager);
+            movieAdapter = new MovieAdapter(movies, this, typeAdapter);
+            mMovieRV.setAdapter(movieAdapter);
+        }else{
+            mMainNoData.setVisibility(View.VISIBLE);
+            mMovieRV.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -71,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void hideLoading() {
         mProgressBar.setVisibility(View.GONE);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,8 +105,25 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
             case R.id.sort_top_rated:
                 mActionListener.getMovies(Constants.SORT_TYPE.TOP_RATED_MOVIES);
                 return true;
+            case R.id.sort_favorite:
+                mActionListener.getMovies(Constants.SORT_TYPE.FAVORITE);
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void checkSourceIntent(){
+        Intent intent = getIntent();
+        Bundle extras = intent.getExtras();
+        if(extras != null) {
+            if (extras.containsKey("source")) {
+                int mSource = getIntent().getIntExtra("source",0);
+                switch (mSource){
+                    case Constants.SORT_TYPE.FAVORITE:
+                        mActionListener.getMovies(Constants.SORT_TYPE.FAVORITE);
+                        break;
+                }
+            }
         }
     }
 }

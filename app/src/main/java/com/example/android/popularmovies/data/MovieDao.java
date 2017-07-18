@@ -13,7 +13,7 @@ import org.greenrobot.greendao.database.DatabaseStatement;
 /** 
  * DAO for table "MOVIE".
 */
-public class MovieDao extends AbstractDao<Movie, Void> {
+public class MovieDao extends AbstractDao<Movie, Long> {
 
     public static final String TABLENAME = "MOVIE";
 
@@ -23,7 +23,7 @@ public class MovieDao extends AbstractDao<Movie, Void> {
      */
     public static class Properties {
         public final static Property VoteCount = new Property(0, int.class, "voteCount", false, "VOTE_COUNT");
-        public final static Property Id = new Property(1, int.class, "id", false, "ID");
+        public final static Property Id = new Property(1, long.class, "id", true, "_id");
         public final static Property Video = new Property(2, boolean.class, "video", false, "VIDEO");
         public final static Property VoteAverage = new Property(3, float.class, "voteAverage", false, "VOTE_AVERAGE");
         public final static Property Title = new Property(4, String.class, "title", false, "TITLE");
@@ -51,7 +51,7 @@ public class MovieDao extends AbstractDao<Movie, Void> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"MOVIE\" (" + //
                 "\"VOTE_COUNT\" INTEGER NOT NULL ," + // 0: voteCount
-                "\"ID\" INTEGER NOT NULL UNIQUE ," + // 1: id
+                "\"_id\" INTEGER PRIMARY KEY NOT NULL ," + // 1: id
                 "\"VIDEO\" INTEGER NOT NULL ," + // 2: video
                 "\"VOTE_AVERAGE\" REAL NOT NULL ," + // 3: voteAverage
                 "\"TITLE\" TEXT," + // 4: title
@@ -164,15 +164,15 @@ public class MovieDao extends AbstractDao<Movie, Void> {
     }
 
     @Override
-    public Void readKey(Cursor cursor, int offset) {
-        return null;
+    public Long readKey(Cursor cursor, int offset) {
+        return cursor.getLong(offset + 1);
     }    
 
     @Override
     public Movie readEntity(Cursor cursor, int offset) {
         Movie entity = new Movie( //
             cursor.getInt(offset + 0), // voteCount
-            cursor.getInt(offset + 1), // id
+            cursor.getLong(offset + 1), // id
             cursor.getShort(offset + 2) != 0, // video
             cursor.getFloat(offset + 3), // voteAverage
             cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // title
@@ -191,7 +191,7 @@ public class MovieDao extends AbstractDao<Movie, Void> {
     @Override
     public void readEntity(Cursor cursor, Movie entity, int offset) {
         entity.setVoteCount(cursor.getInt(offset + 0));
-        entity.setId(cursor.getInt(offset + 1));
+        entity.setId(cursor.getLong(offset + 1));
         entity.setVideo(cursor.getShort(offset + 2) != 0);
         entity.setVoteAverage(cursor.getFloat(offset + 3));
         entity.setTitle(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
@@ -206,20 +206,23 @@ public class MovieDao extends AbstractDao<Movie, Void> {
      }
     
     @Override
-    protected final Void updateKeyAfterInsert(Movie entity, long rowId) {
-        // Unsupported or missing PK type
-        return null;
+    protected final Long updateKeyAfterInsert(Movie entity, long rowId) {
+        entity.setId(rowId);
+        return rowId;
     }
     
     @Override
-    public Void getKey(Movie entity) {
-        return null;
+    public Long getKey(Movie entity) {
+        if(entity != null) {
+            return entity.getId();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public boolean hasKey(Movie entity) {
-        // TODO
-        return false;
+        throw new UnsupportedOperationException("Unsupported for entities with a non-null key");
     }
 
     @Override
