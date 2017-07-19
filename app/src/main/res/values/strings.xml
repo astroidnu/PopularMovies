@@ -24,5 +24,9 @@
 
     <!--BASE URL-->
     <string name="youtube_video_thumbnail" translatable="false">https://img.youtube.com/vi/%s/0.jpg</string>
+    <string name="youtube_video_url" translatable="false">https://www.youtube.com/watch?v=%s</string>
+
+    <!--Menu-->
+    <string name="menu_share">Share</string>
 
 </resources>

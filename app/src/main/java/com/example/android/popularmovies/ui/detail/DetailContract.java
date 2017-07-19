@@ -18,10 +18,11 @@ import java.util.List;
 public class DetailContract {
     public interface View{
         void showData(Movie movie) throws MalformedURLException;
-        void showLoading();
+        void showLoading(boolean isLoading);
         <T> void setAllAdapter(List<T> data, int adapterId);
         void isFavorite(boolean stat);
         void backToMain(int source);
+        void shareContent(String url);
     }
 
     public interface UserActionListener{
@@ -29,5 +30,6 @@ public class DetailContract {
         <T>void setAdapter(HashMap<Integer, List<T>> data);
         void saveFavorite(Movie movie);
         void checkFavorite(long id);
+        void urlShareContent();
     }
 }

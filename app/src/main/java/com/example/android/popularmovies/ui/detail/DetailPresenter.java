@@ -51,6 +51,7 @@ public class DetailPresenter implements DetailContract.UserActionListener {
 
     @Override
     public <T> void getReviewAndTrailerList(String id) {
+        mView.showLoading(true);
         Flowable.zip(mainRepository.getVideos(id), mainRepository.getReviews(id), new BiFunction<Resource<List<Video>>, Resource<List<Review>>, HashMap<Integer, List<T>>>() {
             @Override
             public HashMap<Integer, List<T>> apply(@NonNull Resource<List<Video>> trailerList, @NonNull Resource<List<Review>> reviewList) throws Exception {
@@ -84,6 +85,7 @@ public class DetailPresenter implements DetailContract.UserActionListener {
         for(int i = 0; i<data.size();i++){
             mView.setAllAdapter(data.get(i), i);
         }
+        mView.showLoading(false);
     }
 
     @Override
@@ -114,6 +116,12 @@ public class DetailPresenter implements DetailContract.UserActionListener {
         }
     }
 
+    @Override
+    public void urlShareContent() {
+        if(mListTrailer.size() >0){
+            mView.shareContent(mListTrailer.get(0).getKey());
+        }
+    }
 
 
     private Favorite selectFavorite(long id) {

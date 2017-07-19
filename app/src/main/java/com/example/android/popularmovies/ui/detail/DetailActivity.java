@@ -14,6 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -79,12 +81,6 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     RecyclerView mMovieTrailerRV;
     @BindView(R.id.detail_movie_movie_review_list)
     RecyclerView mReviewRV;
-    @BindView(R.id.detail_movie_no_review)
-    LinearLayout mLayoutNoReview;
-    @BindView(R.id.detail_movie_no_trailer)
-    LinearLayout mLayoutNoTrailer;
-    @BindView(R.id.no_review_title)
-    TextView mNoReviewTitle;
 
     private DetailContract.UserActionListener mActionListener;
     private TrailerAdapter trailerAdapter;
@@ -101,9 +97,10 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         detailPresenter.setView(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        showLoading();
+        showLoading(true);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+
         if(extras != null){
             if(extras.containsKey(Constants.INTENT_TAG.TAG_DATA)){
                 Movie movie = getIntent().getParcelableExtra(Constants.INTENT_TAG.TAG_DATA);
@@ -119,6 +116,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             }
         }
     }
+
 
     private void setupActivityComponent() {
         MovieApp.get()
@@ -152,41 +150,29 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     @Override
-    public void showLoading() {
-        mProgressBar.setVisibility(View.VISIBLE);
+    public void showLoading(boolean isLoading) {
+        if(isLoading){
+            mProgressBar.setVisibility(View.VISIBLE);
+        }else{
+            mProgressBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public <T> void setAllAdapter(List<T> data, int adapterId){
         switch (adapterId){
             case Constants.ADAPTER_TYPE.TRAILER_ADAPTER:
-                if(data != null && data.size() > 0){
-                    mMovieTrailerRV.setVisibility(View.VISIBLE);
-                    mLayoutNoTrailer.setVisibility(View.GONE);
-                    mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-                    mMovieTrailerRV.setLayoutManager(mLinearLayoutManager);
-                    trailerAdapter = new TrailerAdapter(data, this);
-                    mMovieTrailerRV.setAdapter(trailerAdapter);
-                }else{
-                    mMovieTrailerRV.setVisibility(View.GONE);
-                    mNoReviewTitle.setText(getResources().getString(R.string.movie_no_review));
-                    mLayoutNoTrailer.setVisibility(View.VISIBLE);
-                }
-
+                mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+                mMovieTrailerRV.setLayoutManager(mLinearLayoutManager);
+                trailerAdapter = new TrailerAdapter(data, this);
+                mMovieTrailerRV.setAdapter(trailerAdapter);
                 break;
             case Constants.ADAPTER_TYPE.REVIEW_ADAPTER:
-                if(data != null && data.size() > 0){
-                    mReviewRV.setVisibility(View.VISIBLE);
-                    mLayoutNoReview.setVisibility(View.GONE);
-                    mLinearLayoutManager = new LinearLayoutManager(this);
-                    mReviewRV.setLayoutManager(mLinearLayoutManager);
-                    reviewAdapter = new ReviewAdapter(data, this);
-                    mReviewRV.setAdapter(reviewAdapter);
-                }else{
-                    mReviewRV.setVisibility(View.GONE);
-                    mNoReviewTitle.setText(getResources().getString(R.string.movie_no_review));
-                    mLayoutNoReview.setVisibility(View.VISIBLE);
-                }
+                mReviewRV.setVisibility(View.VISIBLE);
+                mLinearLayoutManager = new LinearLayoutManager(this);
+                mReviewRV.setLayoutManager(mLinearLayoutManager);
+                reviewAdapter = new ReviewAdapter(data, this);
+                mReviewRV.setAdapter(reviewAdapter);
                 break;
         }
 
@@ -216,10 +202,31 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     }
 
     @Override
+    public void shareContent(String url) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, getResources().getString(R.string.youtube_video_url,url));
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.options_menu_detail, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem menuItem){
         switch (menuItem.getItemId()) {
             case android.R.id.home:
                 this.finish();
+                break;
+            case R.id.menu_share:
+                mActionListener.urlShareContent();
+                break;
         }
         return (super.onOptionsItemSelected(menuItem));
     }

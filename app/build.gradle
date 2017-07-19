@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'org.greenrobot.greendao'
 
-def AndroidLibVersion = '25.3.1'
-def DaggerVersion = "2.5"
+def AndroidLibVersion = '26.0.0-alpha1'
+def DaggerVersion = "2.11"
 def RetrofitVersion = "2.3.0"
-def OkhttpVersion = "3.7.0"
-def ButterknifeVersion = "8.6.0"
+def OkhttpVersion = "3.8.1"
+def ButterknifeVersion = "8.7.0"
 def GreenDaoVersion = "3.2.2"
 
 def keystorePropertiesFile = rootProject.file("keystore.properties")
@@ -14,12 +14,12 @@ def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.example.android.popularmoviesstage1"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -62,8 +62,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 
 
