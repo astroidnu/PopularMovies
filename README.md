@@ -5,13 +5,13 @@
 # PopularMovies
 Popular Movies App Repository Udacity Android Schollarship
 
-#Technologies
+# Technologies
 1. MVP Pattern
 2. RXJava2 
 3. Retrofit 2
 4. Dagger2
 5. ORM GreenDao 
 
-#TODO
+# TODO
 1. Implement Unit testing For Every Presenter 
 2. Implement Instrument Testing 
