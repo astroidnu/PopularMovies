@@ -18,10 +18,12 @@ import java.util.List;
  * SCO Project
  */
 
-public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder>{
+public class ReviewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private List<Review> mReviews;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
+
+    private int mSize;
 
     public <T> ReviewAdapter(List<T> reviews, Context context){
         mReviews = (List<Review>)reviews;
@@ -29,31 +31,80 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
         mLayoutInflater = LayoutInflater.from(context);
     }
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mLayoutInflater.inflate(R.layout.item_review, parent, false);
-        return new ViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView;
+        switch (viewType){
+            case R.layout.item_no_data:
+                itemView = mLayoutInflater.inflate(R.layout.item_no_data, parent, false);
+                return new ItemNoTrailerViewHolder(itemView);
+            case R.layout.item_review:
+                itemView = mLayoutInflater.inflate(R.layout.item_review, parent, false);
+                return new ItemReviewViewHolder(itemView);
+            default:
+                itemView = mLayoutInflater.inflate(R.layout.item_review, parent, false);
+                return new ItemReviewViewHolder(itemView);
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Review review = mReviews.get(position);
-        holder.mReviewTitle.setText(review.getAuthor());
-        holder.mReviewContent.setText(review.getContent());
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        switch (holder.getItemViewType()){
+            case R.layout.item_no_data:
+                ItemNoTrailerViewHolder itemNoTrailerViewHolder = (ItemNoTrailerViewHolder) holder;
+                itemNoTrailerViewHolder.mNoDataTitle.setText(mContext.getResources().getString(R.string.movie_no_review));
+                break;
+            case R.layout.item_review:
+                Review review;
+                ItemReviewViewHolder itemReviewViewHolder = (ItemReviewViewHolder) holder;
+                if(position < mReviews.size()){
+                    review  = mReviews.get(position);
+                }else{
+                    review = mReviews.get(mReviews.size() - 1);
+                }
+                itemReviewViewHolder.mReviewTitle.setText(review.getAuthor());
+                itemReviewViewHolder.mReviewContent.setText(review.getContent());
+                break;
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return mReviews.size();
+        if(mReviews.size() == 0){
+            mSize = mReviews.size() + 1;
+        }else{
+            mSize = mReviews.size() + 1;
+        }
+        return mSize;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+
+    @Override
+    public int getItemViewType(int position){
+        if (mSize >= 2) {
+            return R.layout.item_review;
+        } else {
+            return R.layout.item_no_data;
+        }
+    }
+
+    public class ItemReviewViewHolder extends RecyclerView.ViewHolder {
         private TextView mReviewTitle;
         private TextView mReviewContent;
 
-        public ViewHolder(View itemView) {
+        public ItemReviewViewHolder(View itemView) {
             super(itemView);
             mReviewTitle = (TextView) itemView.findViewById(R.id.review_title);
             mReviewContent = (TextView) itemView.findViewById(R.id.review_content);
+        }
+    }
+
+    public class ItemNoTrailerViewHolder extends RecyclerView.ViewHolder{
+        TextView mNoDataTitle;
+        public ItemNoTrailerViewHolder(View itemView) {
+            super(itemView);
+            mNoDataTitle = (TextView) itemView.findViewById(R.id.item_title);
         }
     }
 }

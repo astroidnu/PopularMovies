@@ -65,14 +65,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         });
     }
 
-    /*TODO Return no item layout if size 0
-    * */
     @Override
     public int getItemCount() {
         return mMovies.size();
     }
-
-
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mMovieCover;

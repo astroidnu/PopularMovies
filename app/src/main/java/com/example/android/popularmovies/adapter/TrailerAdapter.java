@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.android.popularmovies.R;
 import com.example.android.popularmovies.data.Video;
@@ -21,10 +22,12 @@ import java.util.List;
  * SCO Project
  */
 
-public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHolder> {
+public class TrailerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Video> mVideos;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
+
+    private int mSize;
 
     public <T> TrailerAdapter(List<T> videos, Context context){
         mVideos = (List<Video>)videos;
@@ -34,40 +37,86 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = mLayoutInflater.inflate(R.layout.item_video, parent, false);
-        return new ViewHolder(itemView);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView;
+        switch (viewType){
+            case R.layout.item_no_data:
+                itemView = mLayoutInflater.inflate(R.layout.item_no_data, parent, false);
+                return new ItemNoTrailerViewHolder(itemView);
+            case R.layout.item_video:
+                itemView = mLayoutInflater.inflate(R.layout.item_video, parent, false);
+                return new ItemTrailerViewHolder(itemView);
+            default:
+                itemView = mLayoutInflater.inflate(R.layout.item_video, parent, false);
+                return new ItemTrailerViewHolder(itemView);
+        }
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Video  video = mVideos.get(position);
-        String url = mContext.getResources().getString(R.string.youtube_video_thumbnail,video.getKey());
-        Picasso.with(mContext)
-                .load(url)
-                .into(holder.mVideoThumbnail);
-        holder.mVideoThumbnail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(mContext.getResources().getString(R.string.youtube_video_url, video.getKey())));
-                mContext.startActivity(intent);
-            }
-        });
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        switch (holder.getItemViewType()){
+            case R.layout.item_no_data:
+                ItemNoTrailerViewHolder itemNoTrailerViewHolder = (ItemNoTrailerViewHolder) holder;
+                itemNoTrailerViewHolder.mNoDataTitle.setText(mContext.getResources().getString(R.string.movie_no_trailer));
+                break;
+            case R.layout.item_video:
+                Video  video;
+                ItemTrailerViewHolder itemTrailerViewHolder = (ItemTrailerViewHolder) holder;
+                if(position < mVideos.size()){
+                    video  = mVideos.get(position);
+                }else{
+                    video = mVideos.get(mVideos.size() - 1);
+                }
+                String url = mContext.getResources().getString(R.string.youtube_video_thumbnail,video.getKey());
+                Picasso.with(mContext)
+                        .load(url)
+                        .into(itemTrailerViewHolder.mVideoThumbnail);
+                itemTrailerViewHolder.mVideoThumbnail.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(mContext.getResources().getString(R.string.youtube_video_url, video.getKey())));
+                        mContext.startActivity(intent);
+                    }
+                });
+                break;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mVideos.size();
+        if(mVideos.size() == 0){
+            mSize = mVideos.size() + 1;
+        }else{
+            mSize = mVideos.size() + 1;
+        }
+        return mSize;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public int getItemViewType(int position) {
+        if (mSize >= 2) {
+            return R.layout.item_video;
+        } else {
+            return R.layout.item_no_data;
+        }
+    }
+
+    public class ItemTrailerViewHolder extends RecyclerView.ViewHolder {
         ImageView mVideoThumbnail;
         private View.OnClickListener onClickListener;
 
-        public ViewHolder(View itemView) {
+        public ItemTrailerViewHolder(View itemView) {
             super(itemView);
             mVideoThumbnail = (ImageView) itemView.findViewById(R.id.video_thumbnail);
+        }
+    }
+
+    public class ItemNoTrailerViewHolder extends RecyclerView.ViewHolder{
+        TextView mNoDataTitle;
+        public ItemNoTrailerViewHolder(View itemView) {
+            super(itemView);
+            mNoDataTitle = (TextView) itemView.findViewById(R.id.item_title);
         }
     }
 }
