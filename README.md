@@ -10,7 +10,8 @@ Popular Movies App Repository Udacity Android Schollarship
 2. RXJava2 
 3. Retrofit 2
 4. Dagger2
-5. ORM GreenDao 
+5. Content Provider
+6. Native SQLite 
 
 # TODO
 1. Implement Unit testing For Every Presenter 
