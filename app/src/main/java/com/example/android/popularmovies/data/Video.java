@@ -5,14 +5,12 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-
 /**
- * Created by ibnumuzzakkir on 7/11/17.
+ * Created by ibnumuzzakkir on 7/21/17.
+ * Android Engineer
+ * SCO Project
  */
 
-@Entity
 public class Video implements Parcelable {
     @SerializedName("id")
     private String id;
@@ -42,40 +40,6 @@ public class Video implements Parcelable {
         type = in.readString();
     }
 
-    @Generated(hash = 611357741)
-    public Video(String id, String iso6391, String iso31661, String key,
-            String name, String site, int size, String type) {
-        this.id = id;
-        this.iso6391 = iso6391;
-        this.iso31661 = iso31661;
-        this.key = key;
-        this.name = name;
-        this.site = site;
-        this.size = size;
-        this.type = type;
-    }
-
-    @Generated(hash = 237528154)
-    public Video() {
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(iso6391);
-        dest.writeString(iso31661);
-        dest.writeString(key);
-        dest.writeString(name);
-        dest.writeString(site);
-        dest.writeInt(size);
-        dest.writeString(type);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
     public static final Creator<Video> CREATOR = new Creator<Video>() {
         @Override
         public Video createFromParcel(Parcel in) {
@@ -87,6 +51,23 @@ public class Video implements Parcelable {
             return new Video[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(iso6391);
+        parcel.writeString(iso31661);
+        parcel.writeString(key);
+        parcel.writeString(name);
+        parcel.writeString(site);
+        parcel.writeInt(size);
+        parcel.writeString(type);
+    }
 
     public String getId() {
         return id;

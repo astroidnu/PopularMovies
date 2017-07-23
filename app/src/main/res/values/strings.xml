@@ -29,4 +29,6 @@
     <!--Menu-->
     <string name="menu_share">Share</string>
 
+    <string name="content_authority">com.example.android.popularmovies.app</string>
+
 </resources>

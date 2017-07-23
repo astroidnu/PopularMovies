@@ -6,6 +6,7 @@ import com.example.android.popularmovies.di.component.AppComponent;
 import com.example.android.popularmovies.di.component.DaggerAppComponent;
 import com.example.android.popularmovies.di.module.AppModule;
 import com.example.android.popularmovies.di.module.NetworkModule;
+import com.facebook.stetho.Stetho;
 
 /**
  * Created by ibnumuzzakkir on 15/06/2017.
@@ -14,6 +15,7 @@ import com.example.android.popularmovies.di.module.NetworkModule;
  */
 
 public class MovieApp extends Application{
+
     private AppComponent appComponent = createAppComponent();
 
     private static MovieApp instance;
@@ -25,7 +27,7 @@ public class MovieApp extends Application{
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Stetho.initializeWithDefaults(this);
         instance = this;
     }
 

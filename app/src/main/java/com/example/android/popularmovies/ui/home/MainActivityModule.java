@@ -1,9 +1,9 @@
 package com.example.android.popularmovies.ui.home;
 
+import android.content.Context;
+
 import com.example.android.popularmovies.api.NetworkService;
-import com.example.android.popularmovies.data.DaoSession;
 import com.example.android.popularmovies.di.scope.ActivityScope;
-import com.example.android.popularmovies.model.MovieModel;
 import com.example.android.popularmovies.repository.MainRepository;
 
 import dagger.Module;
@@ -26,7 +26,7 @@ public class MainActivityModule {
     MainActivity provideMainActivity() {
         return mainActivity;
     }
-
+//
     @Provides
     @ActivityScope
     MainRepository provideMainRepository(NetworkService networkService) {
@@ -35,14 +35,8 @@ public class MainActivityModule {
 
     @Provides
     @ActivityScope
-    MovieModel provideMovieModel(DaoSession daoSession){
-        return new MovieModel(daoSession);
-    }
-
-    @Provides
-    @ActivityScope
-    MainPresenter provideMainPresenter(MainRepository mainRepository, MovieModel movieModel) {
-        return new MainPresenter(mainRepository, movieModel);
+    MainPresenter provideMainPresenter(MainRepository mainRepository,Context context) {
+        return new MainPresenter(mainRepository, context);
     }
 
 }

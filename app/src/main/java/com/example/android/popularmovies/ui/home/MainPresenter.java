@@ -1,20 +1,20 @@
 package com.example.android.popularmovies.ui.home;
 
-import android.content.Intent;
+import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
+import com.example.android.popularmovies.data.DataContract;
 import com.example.android.popularmovies.data.Movie;
-import com.example.android.popularmovies.model.MovieModel;
 import com.example.android.popularmovies.repository.MainRepository;
 import com.example.android.popularmovies.utils.CustomResourceSubscriber;
 import com.example.android.popularmovies.vo.Resource;
 
-import org.reactivestreams.Subscriber;
-
+import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 import io.reactivex.annotations.NonNull;
-import io.reactivex.subscribers.ResourceSubscriber;
 
 /**
  * Created by ibnumuzzakkir on 16/06/2017.
@@ -26,11 +26,11 @@ public class MainPresenter implements MainContract.UserActionListener {
     private MainContract.View mView;
 
     private MainRepository mainRepository;
-    private MovieModel mMovieModel;
+    private Context mContext;
 
-    public MainPresenter(MainRepository mainRepository, MovieModel movieModel) {
+    public MainPresenter(MainRepository mainRepository, Context context) {
         this.mainRepository = mainRepository;
-        mMovieModel = movieModel;
+        mContext = context;
     }
 
 
@@ -67,22 +67,76 @@ public class MainPresenter implements MainContract.UserActionListener {
                 getMoviesData("top_rated", sortId);
                 break;
             case 2:
-                mMovieModel.getAllMovies().subscribe(new ResourceSubscriber<List<Movie>>() {
-                    @Override
-                    public void onNext(List<Movie> movies) {
-                        mView.setAdapter(movies, sortId);
-                    }
-
-                    @Override
-                    public void onError(Throwable t) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+                Cursor cursor =
+                        mContext.getContentResolver().query(DataContract.FavoriteEntry.CONTENT_URI,
+                                new String[]{DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ID,
+                                DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_TITLE,
+                                        DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_BACKDROP_PATH,
+                                DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ORIGINAL_TITLE,
+                                DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ADULT,
+                                DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ORIGINAL_LANGUAGE,
+                                DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_OVERVIEW,
+                                DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_POPULARITY,
+                                DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_RELEASE_DATE,
+                                DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_VOTE_AVERAGE,
+                                DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_VOTE_COUNT,
+                                        DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_POSTER_PATH,},
+                                null,
+                                null,
+                                null);
+                cursor.moveToFirst();
+                String movieId;
+                String movieTitle;
+                String movieBackDropPath;
+                String movieOriginalTitle;
+                String moviePosterPath;
+                String movieOverview;
+                String movieVoteAverage;
+                String movieVoteCount;
+                String movieReleaseDate;
+                String moviePopularity;
+                String movieOriginalLanguage;
+                List<Movie> movieList = new ArrayList<>();
+                //TODO Complete this section
+                for (int i = 0; i < cursor.getCount(); i++){
+                    Movie movie = new Movie();
+                    movieId = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ID));
+                    movieTitle = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_TITLE));
+                    movieBackDropPath = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_BACKDROP_PATH));
+                    movieOriginalTitle = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ORIGINAL_TITLE));
+                    moviePosterPath = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_POSTER_PATH));
+                    movieOverview = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_OVERVIEW));
+                    movieVoteAverage = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_VOTE_AVERAGE));
+                    movieVoteCount = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_VOTE_COUNT));
+                    movieReleaseDate = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_RELEASE_DATE));
+                    moviePopularity = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_POPULARITY));
+                    movieOriginalLanguage = cursor.getString(cursor
+                            .getColumnIndexOrThrow(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ORIGINAL_LANGUAGE));
+                    movie.setId(Long.valueOf(movieId));
+                    movie.setTitle(movieTitle);
+                    movie.setBackdropPath(movieBackDropPath);
+                    movie.setPosterPath(moviePosterPath);
+                    movie.setOriginalTitle(movieOriginalTitle);
+                    movie.setOverview(movieOverview);
+                    movie.setVoteAverage(Float.valueOf(movieVoteAverage));
+                    movie.setVoteCount(Integer.parseInt(movieVoteCount));
+                    movie.setReleaseDate(movieReleaseDate);
+                    movie.setPopularity(Float.valueOf(moviePopularity));
+                    movie.setOriginalLanguage(movieOriginalLanguage);
+                    movieList.add(movie);
+                    cursor.moveToNext();
+                }
+                mView.setAdapter(movieList, sortId);
                 break;
             default:
                 getMoviesData("popular", sortId);

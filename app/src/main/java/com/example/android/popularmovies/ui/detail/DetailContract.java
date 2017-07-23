@@ -1,9 +1,6 @@
 package com.example.android.popularmovies.ui.detail;
 
-import com.example.android.popularmovies.data.Favorite;
 import com.example.android.popularmovies.data.Movie;
-import com.example.android.popularmovies.data.Review;
-import com.example.android.popularmovies.data.Video;
 
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -28,7 +25,7 @@ public class DetailContract {
     public interface UserActionListener{
         <T> void getReviewAndTrailerList(String id);
         <T>void setAdapter(HashMap<Integer, List<T>> data);
-        void saveFavorite(Movie movie);
+        void saveFavorite(Movie movie) throws Exception;
         void checkFavorite(long id);
         void urlShareContent();
     }

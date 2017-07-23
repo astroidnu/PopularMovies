@@ -1,16 +1,15 @@
 package com.example.android.popularmovies.ui.detail;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 
-import com.example.android.popularmovies.adapter.MovieAdapter;
-import com.example.android.popularmovies.data.Favorite;
+import com.example.android.popularmovies.data.DataContract;
 import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.data.Review;
 import com.example.android.popularmovies.data.Video;
-import com.example.android.popularmovies.model.FavoriteModel;
-import com.example.android.popularmovies.model.MovieModel;
-import com.example.android.popularmovies.model.ReviewModel;
-import com.example.android.popularmovies.model.TrailerModel;
 import com.example.android.popularmovies.repository.MainRepository;
 import com.example.android.popularmovies.utils.Constants;
 import com.example.android.popularmovies.vo.Resource;
@@ -19,7 +18,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.reactivex.Flowable;
-import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.subscribers.ResourceSubscriber;
@@ -33,16 +31,14 @@ import io.reactivex.subscribers.ResourceSubscriber;
 public class DetailPresenter implements DetailContract.UserActionListener {
     private DetailContract.View mView;
     private MainRepository mainRepository;
-    private FavoriteModel mFavoriteModel;
-    private MovieModel mMovieModel;
+    private Context mContext;
 
     private List<Video> mListTrailer;
     private List<Review> mListReview;
 
-    public DetailPresenter(MainRepository mainRepository, FavoriteModel favoriteModel, MovieModel movieModel) {
+    public DetailPresenter(MainRepository mainRepository,Context context) {
         this.mainRepository = mainRepository;
-        mFavoriteModel = favoriteModel;
-        mMovieModel = movieModel;
+        mContext = context;
     }
 
     public void setView(DetailContract.View mView) {
@@ -89,31 +85,54 @@ public class DetailPresenter implements DetailContract.UserActionListener {
     }
 
     @Override
-    public void saveFavorite(Movie movie) {
-        Favorite favoriteList = selectFavorite(Long.valueOf(movie.getId()));
-        if(favoriteList == null){
-            Favorite favorite = new Favorite();
-            favorite.setId(movie.getId());
-            favorite.setTitle(movie.getTitle());
-            mFavoriteModel.insertFavorite(favorite);
-            mMovieModel.insertMovie(movie);
-            mView.isFavorite(true);
-        }else{
-            mFavoriteModel.deleteFavorite(favoriteList);
-            mMovieModel.deleteMovie(movie);
-            Flowable.just("Hello");
-            mView.isFavorite(false);
+    public void saveFavorite(Movie movie) throws Exception {
+        Cursor cursor =
+                mContext.getContentResolver().query(Uri.parse(DataContract.FavoriteEntry.CONTENT_URI+"/"+ String.valueOf(movie.getId())),
+                        new String[]{DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_TITLE},
+                        null,
+                        null,
+                        null);
+        if(cursor != null){
+            if(cursor.getCount() == 0){
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ID,movie.getId());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_TITLE,movie.getTitle());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ORIGINAL_TITLE,movie.getOriginalTitle());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_POSTER_PATH,movie.getPosterPath());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_BACKDROP_PATH,movie.getBackdropPath());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_TITLE,movie.getTitle());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ADULT,movie.isAdult());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_ORIGINAL_LANGUAGE,movie.getOriginalLanguage());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_OVERVIEW,movie.getOverview());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_POPULARITY,movie.getPopularity());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_VOTE_AVERAGE,movie.getVoteAverage());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_VOTE_COUNT,movie.getVoteCount());
+                contentValues.put(DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_RELEASE_DATE,movie.getReleaseDate());
+                mContext.getContentResolver().insert(DataContract.FavoriteEntry.CONTENT_URI, contentValues);
+                mView.isFavorite(true);
+            }else{
+                mContext.getContentResolver().delete(Uri.parse(DataContract.FavoriteEntry.CONTENT_URI + "/" + movie.getId()),null,null);
+                mView.isFavorite(false);
+            }
         }
     }
 
     @Override
     public void checkFavorite(long id) {
-        Favorite favoriteList = selectFavorite(id);
-        if(favoriteList != null){
-            mView.isFavorite(true);
-        }else{
-            mView.isFavorite(false);
+        Cursor cursor =
+                mContext.getContentResolver().query(Uri.parse(DataContract.FavoriteEntry.CONTENT_URI+"/"+ String.valueOf(id)),
+                        new String[]{DataContract.FavoriteEntry.FAVORITE_COLUMN_MOVIES_TITLE},
+                        null,
+                        null,
+                        null);
+        if (cursor != null) {
+            if(cursor.getCount() == 0){
+                mView.isFavorite(false);
+            }else{
+                mView.isFavorite(true);
+            }
         }
+        cursor.close();
     }
 
     @Override
@@ -121,10 +140,5 @@ public class DetailPresenter implements DetailContract.UserActionListener {
         if(mListTrailer.size() >0){
             mView.shareContent(mListTrailer.get(0).getKey());
         }
-    }
-
-
-    private Favorite selectFavorite(long id) {
-        return  mFavoriteModel.selectFavorite(id);
     }
 }

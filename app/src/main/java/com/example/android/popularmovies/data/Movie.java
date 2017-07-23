@@ -5,22 +5,15 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Unique;
-
 /**
- * Created by ibnumuzzakkir on 15/06/2017.
- * Android Developer
- * Garena Indonesia
+ * Created by ibnumuzzakkir on 7/21/17.
+ * Android Engineer
+ * SCO Project
  */
 
-@Entity
 public class Movie implements Parcelable {
     @SerializedName("vote_count")
     private int voteCount;
-    @Id
     @SerializedName("id")
     private long id;
     @SerializedName("video")
@@ -46,6 +39,7 @@ public class Movie implements Parcelable {
     @SerializedName("release_date")
     private String releaseDate;
 
+    public Movie(){};
 
     protected Movie(Parcel in) {
         voteCount = in.readInt();
@@ -62,31 +56,6 @@ public class Movie implements Parcelable {
         overview = in.readString();
         releaseDate = in.readString();
     }
-
-    @Generated(hash = 1638780)
-    public Movie(int voteCount, long id, boolean video, float voteAverage,
-            String title, float popularity, String posterPath,
-            String originalLanguage, String originalTitle, String backdropPath,
-            boolean adult, String overview, String releaseDate) {
-        this.voteCount = voteCount;
-        this.id = id;
-        this.video = video;
-        this.voteAverage = voteAverage;
-        this.title = title;
-        this.popularity = popularity;
-        this.posterPath = posterPath;
-        this.originalLanguage = originalLanguage;
-        this.originalTitle = originalTitle;
-        this.backdropPath = backdropPath;
-        this.adult = adult;
-        this.overview = overview;
-        this.releaseDate = releaseDate;
-    }
-
-    @Generated(hash = 1263461133)
-    public Movie() {
-    }
-    
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
@@ -224,13 +193,5 @@ public class Movie implements Parcelable {
 
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
-    }
-
-    public boolean getVideo() {
-        return this.video;
-    }
-
-    public boolean getAdult() {
-        return this.adult;
     }
 }

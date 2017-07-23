@@ -1,12 +1,9 @@
 package com.example.android.popularmovies.ui.detail;
 
+import android.content.Context;
+
 import com.example.android.popularmovies.api.NetworkService;
-import com.example.android.popularmovies.data.DaoSession;
 import com.example.android.popularmovies.di.scope.ActivityScope;
-import com.example.android.popularmovies.model.FavoriteModel;
-import com.example.android.popularmovies.model.MovieModel;
-import com.example.android.popularmovies.model.ReviewModel;
-import com.example.android.popularmovies.model.TrailerModel;
 import com.example.android.popularmovies.repository.MainRepository;
 
 import dagger.Module;
@@ -38,20 +35,8 @@ public class DetailActivityModule {
 
     @Provides
     @ActivityScope
-    FavoriteModel provideReviewModel(DaoSession daoSession){
-        return new FavoriteModel(daoSession);
-    }
-
-    @Provides
-    @ActivityScope
-    MovieModel provideMovieModel(DaoSession daoSession){
-        return new MovieModel(daoSession);
-    }
-
-    @Provides
-    @ActivityScope
-    DetailPresenter provideDetailPresenter(MainRepository mainRepository, FavoriteModel favoriteModel, MovieModel movieModel) {
-        return new DetailPresenter(mainRepository, favoriteModel, movieModel);
+    DetailPresenter provideDetailPresenter(MainRepository mainRepository,Context context) {
+        return new DetailPresenter(mainRepository, context);
     }
 
 }

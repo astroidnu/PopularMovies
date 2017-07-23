@@ -104,9 +104,6 @@ dependencies {
     compile 'com.parse.bolts:bolts-tasks:1.4.0'
     compile 'com.parse.bolts:bolts-applinks:1.4.0'
 
-    //GreenDao
-    compile "org.greenrobot:greendao:$GreenDaoVersion"
-
     //Stetho
     compile 'com.facebook.stetho:stetho:1.5.0'
 

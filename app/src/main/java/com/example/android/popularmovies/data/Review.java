@@ -5,14 +5,12 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-
 /**
- * Created by ibnumuzzakkir on 7/11/17.
+ * Created by ibnumuzzakkir on 7/21/17.
+ * Android Engineer
+ * SCO Project
  */
 
-@Entity
 public class Review implements Parcelable {
     @SerializedName("id")
     private String id;
@@ -30,18 +28,6 @@ public class Review implements Parcelable {
         url = in.readString();
     }
 
-    @Generated(hash = 2090517670)
-    public Review(String id, String author, String content, String url) {
-        this.id = id;
-        this.author = author;
-        this.content = content;
-        this.url = url;
-    }
-
-    @Generated(hash = 2008964488)
-    public Review() {
-    }
-
     public static final Creator<Review> CREATOR = new Creator<Review>() {
         @Override
         public Review createFromParcel(Parcel in) {
@@ -53,6 +39,19 @@ public class Review implements Parcelable {
             return new Review[size];
         }
     };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(author);
+        parcel.writeString(content);
+        parcel.writeString(url);
+    }
 
     public String getId() {
         return id;
@@ -85,17 +84,5 @@ public class Review implements Parcelable {
     public void setUrl(String url) {
         this.url = url;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(author);
-        dest.writeString(content);
-        dest.writeString(url);
-    }
 }
+

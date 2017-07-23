@@ -60,7 +60,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 itemNoTrailerViewHolder.mNoDataTitle.setText(mContext.getResources().getString(R.string.movie_no_trailer));
                 break;
             case R.layout.item_video:
-                Video  video;
+                Video video;
                 ItemTrailerViewHolder itemTrailerViewHolder = (ItemTrailerViewHolder) holder;
                 if(position < mVideos.size()){
                     video  = mVideos.get(position);

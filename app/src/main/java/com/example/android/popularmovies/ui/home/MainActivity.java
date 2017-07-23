@@ -19,13 +19,11 @@ import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.utils.Constants;
 
 import java.util.List;
-import java.util.Observable;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.Flowable;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
     @Inject

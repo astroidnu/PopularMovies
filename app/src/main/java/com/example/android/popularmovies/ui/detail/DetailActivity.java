@@ -107,7 +107,13 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
                 showData(movie);
                 mActionListener.getReviewAndTrailerList(String.valueOf(movie.getId()));
                 mActionListener.checkFavorite(movie.getId());
-                mBtnFavorite.setOnClickListener(v -> mActionListener.saveFavorite(movie));
+                mBtnFavorite.setOnClickListener(v -> {
+                    try {
+                        mActionListener.saveFavorite(movie);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
             }
 
             if(extras.containsKey(Constants.INTENT_TAG.TAG_SOURCE)){

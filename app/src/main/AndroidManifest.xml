@@ -23,6 +23,10 @@
         <activity
             android:theme="@style/AppThemeNoActionBar"
             android:name="com.example.android.popularmovies.ui.detail.DetailActivity" />
+        <provider
+            android:authorities="@string/content_authority"
+            android:name=".data.DataProvider"
+            android:exported="false"
+            android:syncable="true"/>
     </application>
-
 </manifest>
