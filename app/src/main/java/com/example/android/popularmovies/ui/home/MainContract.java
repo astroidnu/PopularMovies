@@ -1,5 +1,7 @@
 package com.example.android.popularmovies.ui.home;
 
+import android.os.Bundle;
+
 import com.example.android.popularmovies.data.Movie;
 
 import java.util.List;
@@ -19,6 +21,9 @@ public class MainContract {
     }
     public interface UserActionListener{
         void getMovies(int sortId);
+        void getMoviesLocal(int sortId);
+        void onSaveInstanceState(Bundle outState);
+        void onRestoreInstanceState(Bundle savedInstanceState);
     }
 }
 

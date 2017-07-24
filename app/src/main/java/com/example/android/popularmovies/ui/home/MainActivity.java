@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,9 +49,23 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setupActivityComponent();
         mActionListener = mainPresenter;
         mainPresenter.setView(this);
-        mActionListener.getMovies(Constants.SORT_TYPE.POPULAR_MOVIES);
+        mActionListener.getMoviesLocal(Constants.SORT_TYPE.FAVORITE);
         checkSourceIntent();
     }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mActionListener.onRestoreInstanceState(savedInstanceState);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mActionListener.onSaveInstanceState(outState);
+    }
+
 
     private void setupActivityComponent() {
         MovieApp.get()
@@ -74,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         }
 
     }
+
 
     @Override
     public void showLoading() {
