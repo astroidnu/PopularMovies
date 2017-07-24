@@ -36,10 +36,10 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
      * */
 
     public MovieAdapter(List<Movie> movies, Context context, int type){
-        mMovies.clear();
-        mMovies.addAll(movies);
         mContext = context;
         mTypeAdapter = type;
+        mMovies.clear();
+        mMovies.addAll(movies);
         notifyDataSetChanged();
     }
 

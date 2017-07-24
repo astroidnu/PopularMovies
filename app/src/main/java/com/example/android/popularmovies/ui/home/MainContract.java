@@ -21,6 +21,7 @@ public class MainContract {
     }
     public interface UserActionListener{
         void getMovies(int sortId);
+        void loadData();
         void getMoviesLocal(int sortId);
         void onSaveInstanceState(Bundle outState);
         void onRestoreInstanceState(Bundle savedInstanceState);

@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.android.popularmovies.data.DataContract;
 import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.repository.MainRepository;
+import com.example.android.popularmovies.utils.Constants;
 import com.example.android.popularmovies.utils.CustomResourceSubscriber;
 import com.example.android.popularmovies.vo.Resource;
 
@@ -28,7 +29,7 @@ public class MainPresenter implements MainContract.UserActionListener {
     private MainRepository mainRepository;
     private Context mContext;
     private String mSortType = null;
-    private int mTypeAdapter = 0;
+    private static int mTypeAdapter = 0;
 
     public MainPresenter(MainRepository mainRepository, Context context) {
         this.mainRepository = mainRepository;
@@ -44,21 +45,21 @@ public class MainPresenter implements MainContract.UserActionListener {
     private void getMoviesData(String sort_type, int typeAdapter) {
         mSortType = sort_type;
         mTypeAdapter = typeAdapter;
-        mView.showLoading();
-        mainRepository.getMovies(sort_type)
-                .subscribe(new CustomResourceSubscriber<Resource<List<Movie>>>() {
-                    @Override
-                    protected void onNextAndCompleted(@NonNull Resource<List<Movie>> body) {
-                        mView.setAdapter(body.data, typeAdapter);
-                        mView.hideLoading();
-                    }
+            mView.showLoading();
+            mainRepository.getMovies(sort_type)
+                    .subscribe(new CustomResourceSubscriber<Resource<List<Movie>>>() {
+                        @Override
+                        protected void onNextAndCompleted(@NonNull Resource<List<Movie>> body) {
+                            mView.setAdapter(body.data, typeAdapter);
+                            mView.hideLoading();
+                        }
 
-                    @Override
-                    protected void onError(String errorMessage) {
-                        Log.e(getClass().getName(), errorMessage);
-                        mView.hideLoading();
-                    }
-                });
+                        @Override
+                        protected void onError(String errorMessage) {
+                            Log.e(getClass().getName(), errorMessage);
+                            mView.hideLoading();
+                        }
+                    });
     }
 
     @Override
@@ -150,6 +151,7 @@ public class MainPresenter implements MainContract.UserActionListener {
             cursor.moveToNext();
         }
         mView.setAdapter(movieList, sortId);
+        mTypeAdapter = 2;
     }
 
     @Override
@@ -164,10 +166,22 @@ public class MainPresenter implements MainContract.UserActionListener {
         int adapterType = savedInstanceState.getInt("adapter_type", 0);
         Log.d(getClass().getName(), sortType + String.valueOf(adapterType));
         if(sortType.equals("local_sort")){
-            getMoviesLocal(adapterType);
-        }else {
-            Log.d(getClass().getName() +"OnRestore",String.valueOf(sortType) + " " + String.valueOf(adapterType));
+            mTypeAdapter =2 ;
+            getMoviesLocal(2);
+        }else{
             getMoviesData(sortType, adapterType);
         }
+
+    }
+
+
+    @Override
+    public void loadData() {
+        if(mTypeAdapter == 2){
+            getMoviesLocal(mTypeAdapter);
+        }else{
+            getMovies(mTypeAdapter);
+        }
+
     }
 }

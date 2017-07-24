@@ -42,18 +42,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private GridLayoutManager mGridLayoutManager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-        setupActivityComponent();
-        mActionListener = mainPresenter;
-        mainPresenter.setView(this);
-        mActionListener.getMoviesLocal(Constants.SORT_TYPE.FAVORITE);
-        checkSourceIntent();
-    }
-
-    @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mActionListener.onRestoreInstanceState(savedInstanceState);
@@ -66,6 +54,17 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         mActionListener.onSaveInstanceState(outState);
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        setupActivityComponent();
+        mActionListener = mainPresenter;
+        mainPresenter.setView(this);
+       mActionListener.loadData();
+        checkSourceIntent();
+    }
 
     private void setupActivityComponent() {
         MovieApp.get()
