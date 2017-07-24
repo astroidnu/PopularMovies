@@ -123,6 +123,21 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         }
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mActionListener.onRestoreInstanceState(savedInstanceState);
+    }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mActionListener.onSaveInstanceState(outState);
+    }
+
+
+
 
     private void setupActivityComponent() {
         MovieApp.get()

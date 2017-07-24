@@ -3,7 +3,6 @@ package com.example.android.popularmovies.ui.home;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.android.popularmovies.data.DataContract;
@@ -11,15 +10,11 @@ import com.example.android.popularmovies.data.Movie;
 import com.example.android.popularmovies.repository.MainRepository;
 import com.example.android.popularmovies.utils.CustomResourceSubscriber;
 import com.example.android.popularmovies.vo.Resource;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
 
 import io.reactivex.annotations.NonNull;
-
-import static com.example.android.popularmovies.ui.home.MainActivity.TAG_DATA;
 
 /**
  * Created by ibnumuzzakkir on 16/06/2017.

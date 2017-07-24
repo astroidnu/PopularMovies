@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.example.android.popularmovies.data.DataContract;
@@ -35,6 +36,7 @@ public class DetailPresenter implements DetailContract.UserActionListener {
 
     private List<Video> mListTrailer;
     private List<Review> mListReview;
+    private String mMovieID  = null;
 
     public DetailPresenter(MainRepository mainRepository,Context context) {
         this.mainRepository = mainRepository;
@@ -47,6 +49,7 @@ public class DetailPresenter implements DetailContract.UserActionListener {
 
     @Override
     public <T> void getReviewAndTrailerList(String id) {
+        mMovieID = id;
         mView.showLoading(true);
         Flowable.zip(mainRepository.getVideos(id), mainRepository.getReviews(id), new BiFunction<Resource<List<Video>>, Resource<List<Review>>, HashMap<Integer, List<T>>>() {
             @Override
@@ -140,5 +143,16 @@ public class DetailPresenter implements DetailContract.UserActionListener {
         if(mListTrailer.size() >0){
             mView.shareContent(mListTrailer.get(0).getKey());
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putString("movie_id", mMovieID);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        String movieId = savedInstanceState.getString("movie_id");
+        getReviewAndTrailerList(movieId);
     }
 }

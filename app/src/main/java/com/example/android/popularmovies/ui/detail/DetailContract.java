@@ -1,5 +1,7 @@
 package com.example.android.popularmovies.ui.detail;
 
+import android.os.Bundle;
+
 import com.example.android.popularmovies.data.Movie;
 
 import java.net.MalformedURLException;
@@ -28,5 +30,7 @@ public class DetailContract {
         void saveFavorite(Movie movie) throws Exception;
         void checkFavorite(long id);
         void urlShareContent();
+        void onSaveInstanceState(Bundle outState);
+        void onRestoreInstanceState(Bundle savedInstanceState);
     }
 }
