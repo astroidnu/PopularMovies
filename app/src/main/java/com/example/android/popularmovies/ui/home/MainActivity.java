@@ -1,9 +1,11 @@
 package com.example.android.popularmovies.ui.home;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
@@ -40,18 +42,35 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private MainContract.UserActionListener mActionListener;
     private MovieAdapter movieAdapter;
     private GridLayoutManager mGridLayoutManager;
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        mActionListener.onRestoreInstanceState(savedInstanceState);
-    }
-
+    private Parcelable mState;
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.d(getClass().getName(), "onSaveInstanceState()");
+        mState = mMovieRV.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable("state_list", mState);
         mActionListener.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.d(getClass().getName(),"onRestoreInstanceState");
+        if(savedInstanceState != null){
+            mState = savedInstanceState.getParcelable("state_list");
+            mActionListener.onRestoreInstanceState(savedInstanceState);
+        }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mState != null) {
+            Log.d(getClass().getName(), mState.toString());
+            mMovieRV.getLayoutManager().onRestoreInstanceState(mState);
+        }
     }
 
     @Override
@@ -62,9 +81,12 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         setupActivityComponent();
         mActionListener = mainPresenter;
         mainPresenter.setView(this);
-       mActionListener.loadData();
+        mActionListener.loadData();
         checkSourceIntent();
+        mGridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        mMovieRV.setLayoutManager(mGridLayoutManager);
     }
+
 
     private void setupActivityComponent() {
         MovieApp.get()
@@ -78,8 +100,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
         if(movies.size() > 0){
             mMainNoData.setVisibility(View.GONE);
             mMovieRV.setVisibility(View.VISIBLE);
-            mGridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-            mMovieRV.setLayoutManager(mGridLayoutManager);
             movieAdapter = new MovieAdapter(movies, this, typeAdapter);
             mMovieRV.setAdapter(movieAdapter);
         }else{
