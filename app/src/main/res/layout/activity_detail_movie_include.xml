@@ -5,10 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="UnusedAttribute">
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <ImageView
             tools:src="@drawable/content_cover"
             android:adjustViewBounds="true"
@@ -19,7 +20,8 @@
             android:layout_marginLeft="@dimen/default_margin"
             android:layout_marginTop="@dimen/default_padding"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlHardcoded" />
         <TextView
             android:textStyle="bold"
             android:textSize="@dimen/default_header_text_size"
@@ -72,7 +74,8 @@
             app:layout_constraintTop_toBottomOf="@+id/detail_movie_poster"
             app:layout_constraintLeft_toLeftOf="@+id/detail_movie_poster"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginRight="@dimen/default_margin" />
+            android:layout_marginRight="@dimen/default_margin"
+            tools:ignore="RtlHardcoded" />
 
         <TextView
             android:textSize="@dimen/default_header_text_size"
@@ -116,6 +119,7 @@
             android:nestedScrollingEnabled="false"
             app:layout_constraintLeft_toLeftOf="@+id/textView4"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4"
+            tools:ignore="RtlHardcoded" />
     </android.support.constraint.ConstraintLayout>
 </ScrollView>
