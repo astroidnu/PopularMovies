@@ -29,6 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainContract.View {
+
+    private static final String TAG_STATE_LIST = "state_list";
     @Inject
     MainPresenter mainPresenter;
 
@@ -47,18 +49,16 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(getClass().getName(), "onSaveInstanceState()");
         mState = mMovieRV.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable("state_list", mState);
+        outState.putParcelable(TAG_STATE_LIST, mState);
         mActionListener.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.d(getClass().getName(),"onRestoreInstanceState");
         if(savedInstanceState != null){
-            mState = savedInstanceState.getParcelable("state_list");
+            mState = savedInstanceState.getParcelable(TAG_STATE_LIST);
             mActionListener.onRestoreInstanceState(savedInstanceState);
         }
     }
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     public void onResume() {
         super.onResume();
         if (mState != null) {
-            Log.d(getClass().getName(), mState.toString());
             mMovieRV.getLayoutManager().onRestoreInstanceState(mState);
         }
     }

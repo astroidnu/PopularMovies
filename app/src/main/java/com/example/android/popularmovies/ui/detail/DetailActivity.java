@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -56,6 +57,8 @@ import dagger.Module;
  */
 @Module
 public class DetailActivity extends AppCompatActivity implements DetailContract.View {
+    private static final String TAG_STATE_REVIEW_LIST = "review_state";
+    private static final String TAG_STATE_TRAILER_LIST = "trailer_state";
     @Inject
     DetailPresenter detailPresenter;
 
@@ -86,6 +89,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     private TrailerAdapter trailerAdapter;
     private LinearLayoutManager mLinearLayoutManager;
     private ReviewAdapter reviewAdapter;
+    private Parcelable mStateTrailer;
+    private Parcelable mStateReview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +105,11 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
         showLoading(true);
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
+
+        mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        mMovieTrailerRV.setLayoutManager(mLinearLayoutManager);
+        mLinearLayoutManager = new LinearLayoutManager(this);
+        mReviewRV.setLayoutManager(mLinearLayoutManager);
 
         if(extras != null){
             if(extras.containsKey(Constants.INTENT_TAG.TAG_DATA)){
@@ -127,6 +137,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mActionListener.onRestoreInstanceState(savedInstanceState);
+        mStateReview = savedInstanceState.getParcelable(TAG_STATE_REVIEW_LIST);
+        mStateTrailer = savedInstanceState.getParcelable(TAG_STATE_TRAILER_LIST);
     }
 
 
@@ -134,6 +146,22 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mActionListener.onSaveInstanceState(outState);
+        mStateTrailer = mMovieTrailerRV.getLayoutManager().onSaveInstanceState();
+        mStateReview = mReviewRV.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(TAG_STATE_TRAILER_LIST, mStateTrailer);
+        outState.putParcelable(TAG_STATE_TRAILER_LIST, mStateReview);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(mStateTrailer != null){
+            mMovieTrailerRV.getLayoutManager().onRestoreInstanceState(mStateTrailer);
+        }
+
+        if(mStateReview != null){
+            mMovieTrailerRV.getLayoutManager().onRestoreInstanceState(mStateReview);
+        }
     }
 
 
@@ -185,15 +213,11 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
     public <T> void setAllAdapter(List<T> data, int adapterId){
         switch (adapterId){
             case Constants.ADAPTER_TYPE.TRAILER_ADAPTER:
-                mLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-                mMovieTrailerRV.setLayoutManager(mLinearLayoutManager);
                 trailerAdapter = new TrailerAdapter(data, this);
                 mMovieTrailerRV.setAdapter(trailerAdapter);
                 break;
             case Constants.ADAPTER_TYPE.REVIEW_ADAPTER:
                 mReviewRV.setVisibility(View.VISIBLE);
-                mLinearLayoutManager = new LinearLayoutManager(this);
-                mReviewRV.setLayoutManager(mLinearLayoutManager);
                 reviewAdapter = new ReviewAdapter(data, this);
                 mReviewRV.setAdapter(reviewAdapter);
                 break;
