@@ -9,6 +9,7 @@
     <string name="filter_top_rated">Top Rated</string>
     <string name="filter_favorite">Favorite</string>
     <string name="no_data">No Data</string>
+    <string name="movie_description">A funny movie with a romantic love story. Wade Wilson (Ryan Reynolds) is a former Special Forces operative who now works as a mercenary. His world comes crashing down when evil scientist Ajax (Ed Skrein...</string>
 
     <!--TAG DESCRIPTION-->
     <string name="movie_header">Movie Header</string>

@@ -19,6 +19,7 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:layout_height="match_parent">
             <ImageView
+                tools:src="@drawable/header_cover"
                 android:contentDescription="@string/movie_header"
                 android:adjustViewBounds="true"
                 android:id="@+id/detail_movie_header"

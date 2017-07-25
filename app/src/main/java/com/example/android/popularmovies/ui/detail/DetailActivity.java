@@ -155,6 +155,8 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             Picasso.with(getApplicationContext())
                     .load(Constants.BASE_URL_IMAGE_BACKDROP+"/w500"+ movie.getBackdropPath())
                     .into(mMovieHeader);
+
+            Log.d(getClass().getName(),Constants.BASE_URL_IMAGE_BACKDROP+"/w500"+ movie.getBackdropPath());
             try{
                 setPalette(Constants.BASE_URL_IMAGE_BACKDROP+"/w342"+movie.getBackdropPath());
             }catch (Exception e){
@@ -163,7 +165,7 @@ public class DetailActivity extends AppCompatActivity implements DetailContract.
             Picasso.with(getApplicationContext())
                     .load(Constants.BASE_URL_IMAGE_BACKDROP+"/w342"+movie.getPosterPath())
                     .into(mPoster);
-
+            Log.d(getClass().getName(),Constants.BASE_URL_IMAGE_BACKDROP+"/w342"+ movie.getPosterPath());
             mCountAverage.setText(getResources().getString(R.string.movie_vote_average, String.valueOf(movie.getVoteAverage())));
             mReleaseDate.setText(movie.getReleaseDate());
         }
